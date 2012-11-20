@@ -1,0 +1,6 @@
+<mayor>.<compat>.<minor>.<build>
+
+v0.0.0.1
+====================
+- Cleanup everything
+- Create runable version without features
