@@ -1,0 +1,1 @@
+char* vaf(char* format, ...);
