@@ -3,7 +3,8 @@
 v0.0.2.0
 ====================
 - display boxes and simple graphs
-
+- GPL header in every file and a License file
+- fix Makefile so it displays the GIT revision instead of SVN
 
 v0.0.3.0
 ====================
