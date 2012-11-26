@@ -40,7 +40,7 @@ endif
 
 SHLIBCFLAGS=-fPIC -std=c99
 SHLIBLDFLAGS=-Wl,--no-undefined -shared -Wl
-EXTLIBS = -lm -lxml2 
+EXTLIBS = -lm
 
 # -------------------------------------------------------------------------------------------------------------
 # -- build rules
@@ -63,7 +63,7 @@ banner:
 	@printf "\n\033\13301;32m----------------------------------------------------------\n\033\13300;39m"
 
 clean:
-	@rm -rf $(BD)$(B_Q3A) $(BR)$(B_Q3A) $(BD)$(B_JK2) $(BR)$(B_JK2)
+	@rm -rf $(BROOT)
 
 
 
@@ -75,7 +75,7 @@ clean:
 $(BR)/$(BINARY).so: $(BR) $(OBJR_Q3A)
 	@printf "\n"
 	@printf "\033\13301;32m->\033\13301;37m linking to $(BR)$(B_Q3A)/$(BINARY).so\n\033\13300;39m"
-	$(CC) $(RELEASE_CFLAGS) $(SHLIBLDFLAGS) -o $@ $(OBJR_Q3A) -lxml2
+	$(CC) $(RELEASE_CFLAGS) $(SHLIBLDFLAGS) -o $@ $(OBJR_Q3A)
 	@printf "\033\13301;32m->\033\13301;37m stripping $(BR)$(B_Q3A)/$(BINARY).so\n\033\13300;39m"
 	strip $(BR)/$(BINARY).so
 

@@ -1,6 +1,8 @@
 #ifndef __VM_H__
 #define __VM_H__
 
+
+
 //magic number is stored in file as 44 14 72 12
 #define	VM_MAGIC	0x12721444
 #define VM_MAGIC_BIG	0x44147212

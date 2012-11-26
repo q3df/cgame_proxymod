@@ -1,4 +1,6 @@
+#include <stdio.h>
 #include <stdlib.h>
+
 #include "cg_local.h"
 #include "cg_vm.h"
 
@@ -89,7 +91,7 @@ static void VM_Run( vm_t *vm ) {
 			//added fix for external function pointers
 			//if param is greater than the memorySize, it's a real function pointer, so call it
 			if( param < 0 || param >= vm->memorySize) {
-				int ret = 0, realfunc = 0;
+				int ret = 0;
 				int* args = NULL;
 				//int			*fp;
 

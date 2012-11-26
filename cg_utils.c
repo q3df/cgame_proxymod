@@ -1,4 +1,6 @@
 #include <stdarg.h>
+#include <stdio.h>
+
 #include "cg_local.h"
 
 #ifdef _WIN32

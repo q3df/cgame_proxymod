@@ -16,6 +16,7 @@ __DLLEXPORT__ int vmMain( int cmd, int arg0, int arg1, int arg2, int arg3, int a
 		break;
 
 		case CG_CONSOLE_COMMAND: // qboolean (*CG_ConsoleCommand)( void );
+			CG_ConsoleCommand( );
 		break;
 
 		case CG_DRAW_ACTIVE_FRAME: // void (*CG_DrawActiveFrame)( int serverTime, stereoFrame_t stereoView, qboolean demoPlayback );

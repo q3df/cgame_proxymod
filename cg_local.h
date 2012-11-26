@@ -1,5 +1,5 @@
-#include <stdio.h>
-
+#ifndef __CG_LOCAL_H__
+#define __CG_LOCAL_H__
 
 #ifdef WIN32
 #	include <Windows.h>
@@ -20,6 +20,9 @@
 #define DEFAULT_MODDIR   "baseq3"
 #define DEFAULT_VMPATH   "vm/cgame.qvm"
 #define GAME             "Q3A"
+
+#define VERSION 0.0.0.1 //<mayor>.<compat>.<minor>.<build>
+
 
 
 typedef int (QDECL *syscall_t)(int, ...);
@@ -688,3 +691,5 @@ extern vec4_t	g_color_table[10];
 
 #define	GIANTCHAR_WIDTH		32
 #define	GIANTCHAR_HEIGHT	48
+
+#endif // __CG_LOCAL_H__

@@ -1,3 +1,8 @@
+#ifndef __CG_MAIN_H__
+#define __CG_MAIN_H__
+
+
+
 typedef enum {
 	CG_INIT,
 	//	void CG_Init( int serverMessageNum, int serverCommandSequence, int clientNum )
@@ -41,3 +46,7 @@ typedef enum {
 } cgameExport_t;
 
 int cg_init( int cmd, int clientNum );
+
+
+
+#endif // __CG_MAIN_H__

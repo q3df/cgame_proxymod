@@ -1,6 +1,15 @@
 <mayor>.<compat>.<minor>.<build>
 
-v0.0.0.1
+v0.0.2.0
 ====================
-- Cleanup everything
-- Create runable version without features
+- display boxes and simple graphs
+
+
+v0.0.3.0
+====================
+- display pictures ingame
+
+
+v0.0.4.0
+====================
+- Display jump delays of the player
