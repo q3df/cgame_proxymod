@@ -87,14 +87,14 @@ typedef enum {
 
 #endif //__VM_H__
 typedef struct {
-  int   vmMagic;
-  int   instructionCount;
-  int   codeOffset;
-  int   codeLength;
-  int   dataOffset;
-  int   dataLength;
-  int   litLength;      /* ( dataLength - litLength ) should be byteswapped on load */
-  int   bssLength;      /* zero filled memory appended to datalength */
+  int32_t   vmMagic;
+  int32_t   instructionCount;
+  int32_t   codeOffset;
+  int32_t   codeLength;
+  int32_t   dataOffset;
+  int32_t   dataLength;
+  int32_t   litLength;      /* ( dataLength - litLength ) should be byteswapped on load */
+  int32_t   bssLength;      /* zero filled memory appended to datalength */
 } vmHeader_t;
 
 
@@ -104,30 +104,30 @@ typedef struct vm_s {
 	char name[MAX_QPATH];
 
 	/* segments */
-	int* codeSegment; /* code segment, each instruction is 2 ints */
+	int32_t* codeSegment; /* code segment, each instruction is 2 ints */
 	byte* dataSegment;  /* data segment, partially filled on load */
 	byte* stackSegment; /* stack segment */
 
 	/* status*/
-	int codeSegmentLen; /* size of codeSegment */
-	int dataSegmentLen; /* size of dataSegment */
-	int dataSegmentMask;
+	int32_t codeSegmentLen; /* size of codeSegment */
+	int32_t dataSegmentLen; /* size of dataSegment */
+	int32_t dataSegmentMask;
 
 	/* registers */
-	int* opPointer;
-	int* opStack;
-	int opBase;
+	int32_t* opPointer;
+	int32_t* opStack;
+	int32_t opBase;
 
 	/* memory */
-	int memorySize;
+	int32_t memorySize;
 	byte* memory;
 
 	qboolean swapped; /* was this file byteswapped? (is the server big-endian) */
-	int fileSize;   /* .qvm file size (for qmmvm_status) */
+	int32_t fileSize;   /* .qvm file size (for qmmvm_status) */
 	vmHeader_t header;  /* store header information (useful later on) */
 
 	/* non-API function hooking */
-	int hook_realfunc;  /* address for a VM function to call after a hook completes (0 = don't call) */
+	int32_t hook_realfunc;  /* address for a VM function to call after a hook completes (0 = don't call) */
 } vm_t;
 
 
@@ -135,15 +135,15 @@ typedef struct vm_s {
 extern vm_t g_VM;
 extern char vmpath[MAX_QPATH];
 extern char vmbase[16];
-extern int stacksize;
-extern int vm_stacksize;
+extern int32_t stacksize;
+extern int32_t vm_stacksize;
 
 
-int QDECL VM_Exec(vm_t *vm, int command, int arg0, int arg1, int arg2, int arg3, int arg4, int arg5, int arg6, int arg7, int arg8, int arg9, int arg10, int arg11);
+int32_t QDECL VM_Exec(vm_t *vm, int32_t command, int32_t arg0, int32_t arg1, int32_t arg2, int32_t arg3, int32_t arg4, int32_t arg5, int32_t arg6, int32_t arg7, int32_t arg8, int32_t arg9, int32_t arg10, int32_t arg11);
 qboolean VM_Create(vm_t* vm, const char* path, byte* oldmem);
 void VM_Destroy(vm_t *vm);
 qboolean VM_Restart(vm_t *vm, qboolean savemem);
-void *VM_ExplicitArgPtr( vm_t *vm, int intValue );
-int QDECL VM_SysCalls(byte *memoryBase, int cmd, int *args);
-int int_byteswap(int i);
+void *VM_ExplicitArgPtr( vm_t *vm, int32_t intValue );
+int32_t QDECL VM_SysCalls(byte *memoryBase, int32_t cmd, int32_t *args);
+int32_t int_byteswap(int32_t i);
 short short_byteswap(short s);

@@ -5,7 +5,7 @@
 
 typedef enum {
 	CG_INIT,
-	//	void CG_Init( int serverMessageNum, int serverCommandSequence, int clientNum )
+	//	void CG_Init( int32_t serverMessageNum, int32_t serverCommandSequence, int32_t clientNum )
 	// called when the level loads or when the renderer is restarted
 	// all media should be registered at this time
 	// cgame will display loading status by calling SCR_Update, which
@@ -25,27 +25,27 @@ typedef enum {
 	// command is not known to the game
 
 	CG_DRAW_ACTIVE_FRAME,
-	//	void (*CG_DrawActiveFrame)( int serverTime, stereoFrame_t stereoView, qboolean demoPlayback );
+	//	void (*CG_DrawActiveFrame)( int32_t serverTime, stereoFrame_t stereoView, qboolean demoPlayback );
 	// Generates and draws a game scene and status information at the given time.
 	// If demoPlayback is set, local movement prediction will not be enabled
 
 	CG_CROSSHAIR_PLAYER,
-	//	int (*CG_CrosshairPlayer)( void );
+	//	int32_t (*CG_CrosshairPlayer)( void );
 
 	CG_LAST_ATTACKER,
-	//	int (*CG_LastAttacker)( void );
+	//	int32_t (*CG_LastAttacker)( void );
 
 	CG_KEY_EVENT,
-	//	void	(*CG_KeyEvent)( int key, qboolean down );
+	//	void	(*CG_KeyEvent)( int32_t key, qboolean down );
 
 	CG_MOUSE_EVENT,
-	//	void	(*CG_MouseEvent)( int dx, int dy );
+	//	void	(*CG_MouseEvent)( int32_t dx, int32_t dy );
 
 	CG_EVENT_HANDLING
-	//	void (*CG_EventHandling)(int type);
+	//	void (*CG_EventHandling)(int32_t type);
 } cgameExport_t;
 
-int cg_init( int cmd, int clientNum );
+int32_t cg_init( int32_t cmd, int32_t clientNum );
 
 
 

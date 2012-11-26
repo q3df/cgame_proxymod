@@ -22,15 +22,15 @@
 
 static void VM_Run( vm_t *vm ) {
 	vmOps_t		op;
-	int		param;
+	int32_t		param;
 
 	// local registers
-	int		*opStack;
-	int		*opPointer;
+	int32_t		*opStack;
+	int32_t		*opPointer;
 
 	// constants /not changed during execution/
 	byte		*dataSegment;
-	unsigned	dataSegmentMask;
+	uint32_t	dataSegmentMask;
 
 	opStack = vm->opStack;
 	opPointer = vm->opPointer;
@@ -74,12 +74,12 @@ static void VM_Run( vm_t *vm ) {
 		//enter a function, assign function parameters (length=param) from stack
 		case OP_ENTER:
 			vm->opBase -= param;
-			*((int*)(dataSegment + vm->opBase) + 1) = *opStack++;
+			*((int32_t*)(dataSegment + vm->opBase) + 1) = *opStack++;
 			break;
 
 		//leave a function, move opcode pointer to previous function
 		case OP_LEAVE:
-			opPointer = vm->codeSegment + *((int*)(dataSegment + vm->opBase) + 1);
+			opPointer = vm->codeSegment + *((int32_t*)(dataSegment + vm->opBase) + 1);
 			vm->opBase += param;
 			break;
 
@@ -91,8 +91,8 @@ static void VM_Run( vm_t *vm ) {
 			//added fix for external function pointers
 			//if param is greater than the memorySize, it's a real function pointer, so call it
 			if( param < 0 || param >= vm->memorySize) {
-				int ret = 0;
-				int* args = NULL;
+				int32_t ret = 0;
+				int32_t* args = NULL;
 				//int			*fp;
 
 				// system trap or real system function
@@ -105,7 +105,7 @@ static void VM_Run( vm_t *vm ) {
 				//clear hook var
 				vm->hook_realfunc = 0;
 
-				args = (int *)(dataSegment + vm->opBase) + 2;
+				args = (int32_t *)(dataSegment + vm->opBase) + 2;
 
 				//if a trap function, call our local syscall, which parses each message
 				if (param < 0) {
@@ -126,7 +126,7 @@ static void VM_Run( vm_t *vm ) {
 				//and we have a real VM func to call, call it
 				if (vm->hook_realfunc && param >= vm->memorySize) {
 					//replace func address with return address
-					opStack[0] = (int)(opPointer - vm->codeSegment);
+					opStack[0] = (int32_t)(opPointer - vm->codeSegment);
 					GOTO (vm->hook_realfunc)
 				//otherwise we use the syscall/hook func return value
 				} else {
@@ -135,7 +135,7 @@ static void VM_Run( vm_t *vm ) {
 				break;
 			}
 			//replace func address with return address
-			opStack[0] = (int)(opPointer - vm->codeSegment); // push pc /return address/
+			opStack[0] = (int32_t)(opPointer - vm->codeSegment); // push pc /return address/
 			//jump to VM function at address
 			GOTO( param )
 			break;
@@ -157,7 +157,7 @@ static void VM_Run( vm_t *vm ) {
 // branching
 //
 #define SOP(operation) {if (opStack[1] operation opStack[0]) GOTO(param); opStack += 2;}
-#define UOP(operation) {if (*(unsigned int*)&opStack[1] operation *(unsigned int*)&opStack[0]) GOTO(param); opStack += 2;}
+#define UOP(operation) {if (*(uint32_t*)&opStack[1] operation *(uint32_t*)&opStack[0]) GOTO(param); opStack += 2;}
 #define FOP(operation) {if (*(float*)&opStack[1] operation *(float*)&opStack[0]) GOTO(param); opStack += 2;}
 
 		//jump to address in opStack[0], and pop
@@ -174,13 +174,13 @@ static void VM_Run( vm_t *vm ) {
 		case OP_GTI : SOP(> )	break;
 		//if opStack[1] >= opStack[0], goto address in param
 		case OP_GEI : SOP(>=)	break;
-		//if opStack[1] < opStack[0], goto address in param (unsigned)
+		//if opStack[1] < opStack[0], goto address in param (uint32_t)
 		case OP_LTU : UOP(< )	break;
-		//if opStack[1] <= opStack[0], goto address in param (unsigned)
+		//if opStack[1] <= opStack[0], goto address in param (uint32_t)
 		case OP_LEU : UOP(<=)	break;
-		//if opStack[1] > opStack[0], goto address in param (unsigned)
+		//if opStack[1] > opStack[0], goto address in param (uint32_t)
 		case OP_GTU : UOP(> )	break;
-		//if opStack[1] >= opStack[0], goto address in param (unsigned)
+		//if opStack[1] >= opStack[0], goto address in param (uint32_t)
 		case OP_GEU : UOP(>=)	break;
 		//if opStack[1] == opStack[0], goto address in param (float)
 		case OP_EQF : FOP(==)	break;
@@ -214,18 +214,18 @@ static void VM_Run( vm_t *vm ) {
 		//2-byte
 		case OP_LOAD2:
 			if (opStack[0] >= vm->memorySize)
-				opStack[0] = *(unsigned short*)(opStack[0]);
+				opStack[0] = *(uint16_t*)(opStack[0]);
 			else
-				opStack[0] = *(unsigned short*)&dataSegment[opStack[0] & dataSegmentMask];
+				opStack[0] = *(uint16_t*)&dataSegment[opStack[0] & dataSegmentMask];
 
 			break;
 
 		//4-byte
 		case OP_LOAD4:
 			if (opStack[0] >= vm->memorySize)
-				opStack[0] = *(int*)(opStack[0]);
+				opStack[0] = *(int32_t*)(opStack[0]);
 			else
-				opStack[0] = *(int*)&dataSegment[opStack[0] & dataSegmentMask];
+				opStack[0] = *(int32_t*)&dataSegment[opStack[0] & dataSegmentMask];
 
 			break;
 
@@ -242,32 +242,32 @@ static void VM_Run( vm_t *vm ) {
 		//2-byte
 		case OP_STORE2:
 			if (opStack[1] >= vm->memorySize)
-				*(unsigned short*)(opStack[1]) = (unsigned short)(opStack[0] & 0xFFFF);
+				*(uint16_t*)(opStack[1]) = (uint16_t)(opStack[0] & 0xFFFF);
 			else
-				*(unsigned short*)&dataSegment[opStack[1] & dataSegmentMask] =	(unsigned short)(opStack[0] & 0xFFFF);
+				*(uint16_t*)&dataSegment[opStack[1] & dataSegmentMask] =	(uint16_t)(opStack[0] & 0xFFFF);
 
 			opStack += 2;
 			break;
 		//4-byte
 		case OP_STORE4:
 			if (opStack[1] >= vm->memorySize)
-				*(int*)(opStack[1]) = opStack[0];
+				*(int32_t*)(opStack[1]) = opStack[0];
 			else
-				*(int*)&dataSegment[opStack[1] & dataSegmentMask] = opStack[0];
+				*(int32_t*)&dataSegment[opStack[1] & dataSegmentMask] = opStack[0];
 
 			opStack += 2;
 			break;
 
 
 		//set a function-call arg (offset = param) to the value in opStack[0]
-		case OP_ARG   : *(int*)&dataSegment[(param + vm->opBase) & dataSegmentMask] = opStack[0]; opStack++; break;
+		case OP_ARG   : *(int32_t*)&dataSegment[(param + vm->opBase) & dataSegmentMask] = opStack[0]; opStack++; break;
 
 		//copy mem at address pointed to by opStack[0] to address pointed to by opStack[1]
 		//for 'param' number of bytes
 		case OP_BLOCK_COPY:
 			{
-				int* from = (int*)&dataSegment[opStack[0] & dataSegmentMask];
-				int* to	= (int*)&dataSegment[opStack[1] & dataSegmentMask];
+				int32_t* from = (int32_t*)&dataSegment[opStack[0] & dataSegmentMask];
+				int32_t* to	= (int32_t*)&dataSegment[opStack[1] & dataSegmentMask];
 
 				if( param & 3 ) {
 					g_syscall(CG_ERROR, "[QMMVM] VM_Run: OP_BLOCK_COPY not dword aligned" );
@@ -292,7 +292,7 @@ static void VM_Run( vm_t *vm ) {
 //signed arithmetic
 #define SOP(operation)	{opStack[1] operation opStack[0]; opStack++;}
 //unsigned arithmetic
-#define UOP(operation)	{*(unsigned int*)&opStack[1] operation *(unsigned int*)&opStack[0]; opStack++;}
+#define UOP(operation)	{*(uint32_t*)&opStack[1] operation *(uint32_t*)&opStack[0]; opStack++;}
 //floating point arithmetic
 #define FOP(operation)	{*(float*)&opStack[1] operation *(float*)&opStack[0]; opStack++;}
 //signed arithmetic (on self)
@@ -349,10 +349,10 @@ static void VM_Run( vm_t *vm ) {
 //
 // format conversion
 //
-		//convert opStack[0] int->float
+		//convert opStack[0] int32_t->float
 		case OP_CVIF: *(float *)&opStack[0] = (float)opStack[0]; break;
-		//convert opStack[0] float->int
-		case OP_CVFI: opStack[0] = (int)(*(float *)&opStack[0]); break;
+		//convert opStack[0] float->int32_t
+		case OP_CVFI: opStack[0] = (int32_t)(*(float *)&opStack[0]); break;
 		}
 	} while( opPointer );
 
@@ -369,17 +369,17 @@ static void VM_Run( vm_t *vm ) {
 //vm = pointer to to VM
 //command = GAME instruction to run
 //arg# = args to command
-int QDECL VM_Exec(vm_t *vm, int command, int arg0, int arg1, int arg2, int arg3, int arg4, int arg5, int arg6, int arg7, int arg8, int arg9, int arg10, int arg11) {
-//int QDECL VM_Exec(vm_t *vm, int command, ...) {
-	int* args;
+int32_t QDECL VM_Exec(vm_t *vm, int32_t command, int32_t arg0, int32_t arg1, int32_t arg2, int32_t arg3, int32_t arg4, int32_t arg5, int32_t arg6, int32_t arg7, int32_t arg8, int32_t arg9, int32_t arg10, int32_t arg11) {
+//int32_t QDECL VM_Exec(vm_t *vm, int32_t command, ...) {
+	int32_t* args;
 
 	// prepare local stack
-	vm->opBase -= 15 * sizeof( int );
-	args = (int *)(vm->dataSegment + vm->opBase);
+	vm->opBase -= 15 * sizeof( int32_t );
+	args = (int32_t *)(vm->dataSegment + vm->opBase);
 
 	// push all params
 	args[ 0] = 0;
-	args[ 1] = (int)(vm->opPointer - vm->codeSegment); // save pc
+	args[ 1] = (int32_t)(vm->opPointer - vm->codeSegment); // save pc
 	args[ 2] = command;
 	args[ 3] = arg0;
 	args[ 4] = arg1;
@@ -407,7 +407,7 @@ int QDECL VM_Exec(vm_t *vm, int command, int arg0, int arg1, int arg2, int arg3,
 
 	// restore previous state
 	vm->opPointer = vm->codeSegment + args[1];
-	vm->opBase += 15 * sizeof( int );
+	vm->opBase += 15 * sizeof( int32_t );
 
 	// pick return value from stack
 	return *vm->opStack++;
@@ -424,12 +424,12 @@ int QDECL VM_Exec(vm_t *vm, int command, int arg0, int arg1, int arg2, int arg3,
 qboolean VM_Create(vm_t* vm, const char* path, byte* oldmem) {
 	vmHeader_t* header;
 	byte* vmBase;
-	int n;
+	int32_t n;
 	byte* src;
-	int* lsrc;
-	int* dst;
+	int32_t* lsrc;
+	int32_t* dst;
 	vmOps_t	op;
-	int codeSegmentSize;
+	int32_t codeSegmentSize;
 	fileHandle_t fvm;
 	vm->swapped = qfalse;
 
@@ -487,7 +487,7 @@ qboolean VM_Create(vm_t* vm, const char* path, byte* oldmem) {
 	}
 
 	//each opcode is 2 ints long, calculate total size of opcodes
-	codeSegmentSize = vm->codeSegmentLen * sizeof(int) * 2;
+	codeSegmentSize = vm->codeSegmentLen * sizeof(int32_t) * 2;
 
 	vm->memorySize = codeSegmentSize + vm->dataSegmentLen + vm_stacksize;
 	//load memory code block (freed in VM_Destroy)
@@ -504,13 +504,13 @@ qboolean VM_Create(vm_t* vm, const char* path, byte* oldmem) {
 	memset(vm->memory, 0, vm->memorySize);
 
 	// set pointers
-	vm->codeSegment = (int*)vm->memory;
+	vm->codeSegment = (int32_t*)vm->memory;
 	vm->dataSegment = (byte*)(vm->memory + codeSegmentSize);
 	vm->stackSegment = (byte*)(vm->dataSegment + vm->dataSegmentLen);
 
 	//setup registers
 	vm->opPointer = NULL;
-	vm->opStack = (int*)(vm->stackSegment + vm_stacksize);
+	vm->opStack = (int32_t*)(vm->stackSegment + vm_stacksize);
 	vm->opBase = vm->dataSegmentLen + vm_stacksize / 2;
 
 	//load instructions from file to memory
@@ -521,8 +521,8 @@ qboolean VM_Create(vm_t* vm, const char* path, byte* oldmem) {
 	for (n = 0; n < header->instructionCount; n++) {
 		//get its opcode and move src to the parameter field
 		op = (vmOps_t)*src++;
-		//write opcode (as int) and move dst to next int
-		*dst++ = (int)op;
+		//write opcode (as int32_t) and move dst to next int32_t
+		*dst++ = (int32_t)op;
 
 		switch( op ) {
 		//these ops all have full 4-byte 'param's, which may need to be byteswapped
@@ -548,7 +548,7 @@ qboolean VM_Create(vm_t* vm, const char* path, byte* oldmem) {
 		case OP_GTF:
 		case OP_GEF:
 		case OP_BLOCK_COPY:
-			*dst = *(int*)src;
+			*dst = *(int32_t*)src;
 			if (vm->swapped == qtrue)
 				*dst = byteswap(*dst);
 			dst++;
@@ -556,7 +556,7 @@ qboolean VM_Create(vm_t* vm, const char* path, byte* oldmem) {
 			break;
 		//this op has only a single byte 'param' (draws 1 arg from stack)
 		case OP_ARG:
-			*dst++ = (int)*src++;
+			*dst++ = (int32_t)*src++;
 			break;
 		//remaining ops require no 'param' (draw all, if any, args from stack)
 		default:
@@ -567,11 +567,11 @@ qboolean VM_Create(vm_t* vm, const char* path, byte* oldmem) {
 
 
 	// load data segment from file to memory
-	lsrc = (int*)(vmBase + header->dataOffset);
-	dst = (int*)(vm->dataSegment);
+	lsrc = (int32_t*)(vmBase + header->dataOffset);
+	dst = (int32_t*)(vm->dataSegment);
 
 	//loop through each 4-byte data block (even though data may be single bytes)
-	for (n = 0; n < header->dataLength/sizeof(int); n++) {
+	for (n = 0; n < header->dataLength/sizeof(int32_t); n++) {
 		*dst = *lsrc++;
 		//swap if need-be
 		if (vm->swapped == qtrue)
@@ -629,7 +629,7 @@ qboolean VM_Restart(vm_t *vm, qboolean savemem) {
 	return qtrue;
 }
 
-void *VM_ExplicitArgPtr( vm_t *vm, int intValue ) {
+void *VM_ExplicitArgPtr( vm_t *vm, int32_t intValue ) {
 	if ( !intValue ) {
 		return NULL;
 	}
@@ -649,7 +649,7 @@ void *VM_ExplicitArgPtr( vm_t *vm, int intValue ) {
 //1 = opStack[0]
 //2 = opStack[0] & opStack[1]
 //3 = param & opStack[0] & opStack[1]
-int opparms(int op) {
+int32_t opparms(int32_t op) {
   switch(op) {
   case OP_UNDEF:
   case OP_NOP:
@@ -724,8 +724,8 @@ int opparms(int op) {
 
 vm_t g_VM;
 FILE* g_df = NULL;
-int vm_stacksize = 0;
-int gameClientSize = 0;
+int32_t vm_stacksize = 0;
+int32_t gameClientSize = 0;
 char vmpath[MAX_QPATH];
 char vmbase[16];
 
@@ -734,7 +734,7 @@ char vmbase[16];
 initVM
 ==========
 */
-int initVM( void ) {
+int32_t initVM( void ) {
 	strncpy(vmpath, DEFAULT_VMPATH, sizeof(vmpath));
 	vm_stacksize = 1;
 	vm_stacksize *= (1<<20); //convert to MB
@@ -760,7 +760,7 @@ int initVM( void ) {
 setVMPtr
 ==========
 */
-int setVMPtr( int arg0 ) {
+int32_t setVMPtr( int32_t arg0 ) {
 	g_VM.hook_realfunc = arg0;
 	return 0;
 }
@@ -772,7 +772,7 @@ int setVMPtr( int arg0 ) {
 callVM_Exec
 ==========
 */
-int callVM(int cmd, int arg0, int arg1, int arg2, int arg3, int arg4, int arg5, int arg6, int arg7, int arg8, int arg9, int arg10, int arg11) {
+int32_t callVM(int32_t cmd, int32_t arg0, int32_t arg1, int32_t arg2, int32_t arg3, int32_t arg4, int32_t arg5, int32_t arg6, int32_t arg7, int32_t arg8, int32_t arg9, int32_t arg10, int32_t arg11) {
 	if (g_VM.memory) {
 	return VM_Exec(&g_VM, cmd, arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11);
   }
@@ -786,7 +786,7 @@ int callVM(int cmd, int arg0, int arg1, int arg2, int arg3, int arg4, int arg5, 
 callVM_Destroy
 ==========
 */
-int callVM_Destroy( void ) {
+int32_t callVM_Destroy( void ) {
 	VM_Destroy(&g_VM);
 	return 0;
 }
@@ -799,7 +799,7 @@ int_byteswap
 ============
 */
 //from sdk/game/q_shared.c
-int int_byteswap(int i) {
+int32_t int_byteswap(int32_t i) {
   byte b1,b2,b3,b4;
 
   b1 = i&255;
@@ -807,7 +807,7 @@ int int_byteswap(int i) {
   b3 = (i>>16)&255;
   b4 = (i>>24)&255;
 
-  return ((int)b1<<24) + ((int)b2<<16) + ((int)b3<<8) + b4;
+  return ((int32_t)b1<<24) + ((int32_t)b2<<16) + ((int32_t)b3<<8) + b4;
 }
 
 
@@ -823,5 +823,5 @@ short short_byteswap(short s) {
   b1 = s&255;
   b2 = (s>>8)&255;
 
-  return ((int)b1<<8) + b2;
+  return ((int32_t)b1<<8) + b2;
 }

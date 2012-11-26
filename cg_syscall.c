@@ -2,9 +2,9 @@
 
 //handling syscalls from QVM (passing them to engine)
 //this adds the base VM address to a given value
-#define add(x)    ((x) ? (void*)((x) + (int)memoryBase) : NULL)
+#define add(x)    ((x) ? (void*)((x) + (int32_t)memoryBase) : NULL)
 //this subtracts the base VM address from a given value
-#define sub(x)    ((x) ? (void*)((x) - (int)memoryBase) : NULL)
+#define sub(x)    ((x) ? (void*)((x) - (int32_t)memoryBase) : NULL)
 //this gets an argument value
 #define arg(x)    (args[(x)])
 //this adds the base VM address to an argument value
@@ -12,7 +12,7 @@
 
 #define _ptr(x)   (add(x)) // ???
 
-int QDECL VM_SysCalls(byte *memoryBase, int cmd, int *args) {
+int32_t QDECL VM_SysCalls(byte *memoryBase, int32_t cmd, int32_t *args) {
 
 	switch( cmd ) {
 	case CG_PRINT: // void trap_Printf( const char *fmt )
@@ -23,13 +23,13 @@ int QDECL VM_SysCalls(byte *memoryBase, int cmd, int *args) {
 		g_syscall( cmd, ptr(0) );
 		return 0;
 
-	case CG_MILLISECONDS: // int trap_Milliseconds( void )
+	case CG_MILLISECONDS: // int32_t trap_Milliseconds( void )
 		return g_syscall( cmd );
 
-	case CG_ARGC: // int trap_Argc( void )
+	case CG_ARGC: // int32_t trap_Argc( void )
 		return g_syscall(cmd);
 
-	case CG_ARGV: // void trap_Argv( int n, char *buffer, int bufferLength )
+	case CG_ARGV: // void trap_Argv( int32_t n, char *buffer, int32_t bufferLength )
 		g_syscall( cmd, arg(0), ptr(1), arg(2) );
 		return 0;
 
@@ -37,14 +37,14 @@ int QDECL VM_SysCalls(byte *memoryBase, int cmd, int *args) {
 		g_syscall( cmd, ptr(0), arg(1) );
 		return 0;
 
-	case CG_FS_FOPENFILE: // int   trap_FS_FOpenFile( const char *qpath, fileHandle_t *f, fsMode_t mode )
+	case CG_FS_FOPENFILE: // int32_t   trap_FS_FOpenFile( const char *qpath, fileHandle_t *f, fsMode_t mode )
 		return g_syscall( cmd, ptr(0), ptr(1), arg(2) );
 
-	case CG_FS_READ: // void  trap_FS_Read( void *buffer, int len, fileHandle_t f )
+	case CG_FS_READ: // void  trap_FS_Read( void *buffer, int32_t len, fileHandle_t f )
 		g_syscall( cmd, ptr(0), arg(1), arg(2) );
 		return 0;
 
-	case CG_FS_WRITE: // void  trap_FS_Write( const void *buffer, int len, fileHandle_t f )
+	case CG_FS_WRITE: // void  trap_FS_Write( const void *buffer, int32_t len, fileHandle_t f )
 		g_syscall( cmd, ptr(0), arg(1), arg(2) );
 		return 0;
 
@@ -52,14 +52,14 @@ int QDECL VM_SysCalls(byte *memoryBase, int cmd, int *args) {
 		g_syscall( cmd, arg(0) );
 		return 0;
 
-	case CG_FS_SEEK: // int trap_FS_Seek( fileHandle_t f, long offset, int origin )
+	case CG_FS_SEEK: // int32_t trap_FS_Seek( fileHandle_t f, long offset, int32_t origin )
 		return g_syscall( cmd, arg(0), arg(1), arg(2) );
 
-	case CG_SENDCONSOLECOMMAND: // void  trap_SendConsoleCommand( int exec_when, const char *text )
+	case CG_SENDCONSOLECOMMAND: // void  trap_SendConsoleCommand( int32_t exec_when, const char *text )
 		g_syscall( cmd, ptr(0) );
 		return 0;
 
-	case CG_CVAR_REGISTER: // void  trap_Cvar_Register( vmCvar_t *cvar, const char *var_name, const char *value, int flags )
+	case CG_CVAR_REGISTER: // void  trap_Cvar_Register( vmCvar_t *cvar, const char *var_name, const char *value, int32_t flags )
 		g_syscall( cmd, ptr(0), ptr(1), ptr(2), arg(3) );
 		return 0;
 
@@ -71,7 +71,7 @@ int QDECL VM_SysCalls(byte *memoryBase, int cmd, int *args) {
 		g_syscall( cmd, ptr(0), ptr(1) );
 		return 0;
 
-	case CG_CVAR_VARIABLESTRINGBUFFER: // void trap_Cvar_VariableStringBuffer( const char *var_name, char *buffer, int bufsize )
+	case CG_CVAR_VARIABLESTRINGBUFFER: // void trap_Cvar_VariableStringBuffer( const char *var_name, char *buffer, int32_t bufsize )
 		g_syscall( cmd, ptr(0), ptr(1), arg(2) );
 		return 0;
 
@@ -201,23 +201,23 @@ int QDECL VM_SysCalls(byte *memoryBase, int cmd, int *args) {
 		g_syscall( cmd, ptr(0) );
 		return 0;
 
-	case CG_GETCURRENTSNAPSHOTNUMBER: // void  CL_GetCurrentSnapshotNumber( int *snapshotNumber, int *serverTime )
+	case CG_GETCURRENTSNAPSHOTNUMBER: // void  CL_GetCurrentSnapshotNumber( int32_t *snapshotNumber, int32_t *serverTime )
 		g_syscall( cmd, ptr(0), ptr(1) );
 		return 0;
 
-	case CG_GETSNAPSHOT: // qboolean  CL_GetSnapshot( int snapshotNumber, snapshot_t *snapshot )
+	case CG_GETSNAPSHOT: // qboolean  CL_GetSnapshot( int32_t snapshotNumber, snapshot_t *snapshot )
 		return g_syscall( cmd, arg(0), ptr(1) );
 
-	case CG_GETSERVERCOMMAND: // qboolean CL_GetServerCommand( int serverCommandNumber )
+	case CG_GETSERVERCOMMAND: // qboolean CL_GetServerCommand( int32_t serverCommandNumber )
 		return g_syscall( cmd, arg(0) );
 
 	case CG_GETCURRENTCMDNUMBER:
 		return g_syscall( cmd );
 
-	case CG_GETUSERCMD: // qboolean CL_GetUserCmd( int cmdNumber, usercmd_t *ucmd )
+	case CG_GETUSERCMD: // qboolean CL_GetUserCmd( int32_t cmdNumber, usercmd_t *ucmd )
 		return g_syscall( cmd, arg(0), ptr(1) );
 
-	case CG_SETUSERCMDVALUE: // void CL_SetUserCmdValue( int userCmdValue, float sensitivityScale )
+	case CG_SETUSERCMDVALUE: // void CL_SetUserCmdValue( int32_t userCmdValue, float sensitivityScale )
 		g_syscall( cmd, arg(0), arg(1) );
 		return 0;
 

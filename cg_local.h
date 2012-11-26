@@ -16,26 +16,31 @@
 #endif
 
 
+
+# include <stdint.h>
+
+
+
 /* Mod stuff */
 #define DEFAULT_MODDIR   "baseq3"
 #define DEFAULT_VMPATH   "vm/cgame.qvm"
 #define GAME             "Q3A"
 
-#define VERSION 0.0.0.1 //<mayor>.<compat>.<minor>.<build>
+#define VERSION 0.0.0.2 //<mayor>.<compat>.<minor>.<build>
 
 
 
-typedef int (QDECL *syscall_t)(int, ...);
-typedef int (*pfn_t)(int, int, int, int, int, int, int, int, int, int, int, int);
+typedef int32_t (QDECL *syscall_t)(uint32_t, ...);
+typedef uint32_t (*pfn_t)(int32_t, int32_t, int32_t, int32_t, int32_t, int32_t, int32_t, int32_t, int32_t, int32_t, int32_t, int32_t);
 typedef void (*Function)( void );
 extern syscall_t g_syscall;
 
 
 
 // Quake3 Defines...
-typedef unsigned char byte;
+typedef uint8_t byte;
 typedef enum {qfalse, qtrue} qboolean;
-//typedef int fileHandle_t;
+//typedef int32_t fileHandle_t;
 
 // mode parm for FS_FOpenFile
 typedef enum {
@@ -175,17 +180,17 @@ char* vaf( char* format, ... );
 
 
 /* cg_vm.c */
-int callVM( int cmd, int arg0, int arg1, int arg2, int arg3, int arg4, int arg5, int arg6, int arg7, int arg8, int arg9, int arg10, int arg11 );
-int callVM_Destroy( void );
-int setVMPtr( int arg0 );
-int initVM( void );
+int32_t callVM( int32_t cmd, int32_t arg0, int32_t arg1, int32_t arg2, int32_t arg3, int32_t arg4, int32_t arg5, int32_t arg6, int32_t arg7, int32_t arg8, int32_t arg9, int32_t arg10, int32_t arg11 );
+int32_t callVM_Destroy( void );
+int32_t setVMPtr( int32_t arg0 );
+int32_t initVM( void );
 
 
 /* cg_modules */
-int loadModules( void );
+int32_t loadModules( void );
 
 
-typedef int qhandle_t;
+typedef uint32_t qhandle_t;
 
 #define	MAX_STRING_CHARS	1024	// max length of a string passed to Cmd_TokenizeString
 #define	MAX_CONFIGSTRINGS	1024
@@ -193,9 +198,9 @@ typedef int qhandle_t;
 #define	BIG_INFO_STRING		8192  // used for system info key only
 
 typedef struct {
-	int			stringOffsets[MAX_CONFIGSTRINGS];
+	int32_t			stringOffsets[MAX_CONFIGSTRINGS];
 	char		stringData[MAX_GAMESTATE_CHARS];
-	int			dataCount;
+	int32_t			dataCount;
 } gameState_t;
 
 /*
@@ -236,10 +241,10 @@ typedef struct {
 	char					version_string[MAX_STRING_CHARS];
 	char					extensions_string[BIG_INFO_STRING];
 
-	int						maxTextureSize;			// queried from GL
-	int						maxActiveTextures;		// multitexture ability
+	int32_t						maxTextureSize;			// queried from GL
+	int32_t						maxActiveTextures;		// multitexture ability
 
-	int						colorBits, depthBits, stencilBits;
+	int32_t						colorBits, depthBits, stencilBits;
 
 	glDriverType_t			driverType;
 	glHardwareType_t		hardwareType;
@@ -248,13 +253,13 @@ typedef struct {
 	textureCompression_t	textureCompression;
 	qboolean				textureEnvAddAvailable;
 
-	int						vidWidth, vidHeight;
+	int32_t						vidWidth, vidHeight;
 	// aspect is the screen's physical width / height, which may be different
 	// than scrWidth / scrHeight if the pixels are non-square
 	// normal screens should be 4/3, but wide aspect monitors may be 16/9
 	float					windowAspect;
 
-	int						displayFrequency;
+	int32_t						displayFrequency;
 
 	// synonymous with "does rendering consume the entire screen?", therefore
 	// a Voodoo or Voodoo2 will have this set to TRUE, as will a Win32 ICD that
@@ -269,14 +274,14 @@ typedef struct {
 	/* from cgs_t */
 	gameState_t		gameState;			// gamestate from server
 	glconfig_t		glconfig;			// rendering configuration
-	int				clientNum;
+	int32_t				clientNum;
 	float			screenXScale;		// derived from glconfig
 	float			screenYScale;
-	int				levelStartTime;
+	int32_t				levelStartTime;
 	float			screenXBias;
 
 	/* from cg */
-	int				time;
+	int32_t				time;
 
 	/* GFX Handles */
 	qhandle_t		gfxLogo;
@@ -290,7 +295,7 @@ typedef struct {
 
 
 extern	cgs_t cgs;
-const char *CG_ConfigString( int index );
+const char *CG_ConfigString( int32_t index );
 
 
 #define PROP_GAP_WIDTH			3
@@ -319,13 +324,13 @@ typedef vec_t vec3_t[3];
 typedef vec_t vec4_t[4];
 typedef vec_t vec5_t[5];
 
-typedef	int	fixed4_t;
-typedef	int	fixed8_t;
-typedef	int	fixed16_t;
+typedef	int32_t	fixed4_t;
+typedef	int32_t	fixed8_t;
+typedef	int32_t	fixed16_t;
 
-typedef int		sfxHandle_t;
-typedef int		fileHandle_t;
-typedef int		clipHandle_t;
+typedef int32_t		sfxHandle_t;
+typedef int32_t		fileHandle_t;
+typedef int32_t		clipHandle_t;
 
 #ifndef M_PI
 #define M_PI		3.14159265358979323846f	// matches value in gcc v2 math.h
@@ -333,8 +338,8 @@ typedef int		clipHandle_t;
 
 // markfragments are returned by CM_MarkFragments()
 typedef struct {
-	int		firstPoint;
-	int		numPoints;
+	int32_t		firstPoint;
+	int32_t		numPoints;
 } markFragment_t;
 
 #define	MAX_QPATH			64		// max length of a quake game pathname
@@ -344,13 +349,13 @@ typedef struct {
 #define GLYPH_CHAREND 127
 #define GLYPHS_PER_FONT GLYPH_END - GLYPH_START + 1
 typedef struct {
-  int height;       // number of scan lines
-  int top;          // top of glyph in buffer
-  int bottom;       // bottom of glyph in buffer
-  int pitch;        // width for copying
-  int xSkip;        // x adjustment
-  int imageWidth;   // width of actual image
-  int imageHeight;  // height of actual image
+  int32_t height;       // number of scan lines
+  int32_t top;          // top of glyph in buffer
+  int32_t bottom;       // bottom of glyph in buffer
+  int32_t pitch;        // width for copying
+  int32_t xSkip;        // x adjustment
+  int32_t imageWidth;   // width of actual image
+  int32_t imageHeight;  // height of actual image
   float s;          // x offset in image where glyph starts
   float t;          // y offset in image where glyph starts
   float s2;
@@ -380,7 +385,7 @@ typedef enum {
 
 typedef struct {
 	refEntityType_t	reType;
-	int			renderfx;
+	int32_t			renderfx;
 
 	qhandle_t	hModel;				// opaque type outside refresh
 
@@ -391,15 +396,15 @@ typedef struct {
 	vec3_t		axis[3];			// rotation vectors
 	qboolean	nonNormalizedAxes;	// axis are not normalized, i.e. they have scale
 	float		origin[3];			// also used as MODEL_BEAM's "from"
-	int			frame;				// also used as MODEL_BEAM's diameter
+	int32_t			frame;				// also used as MODEL_BEAM's diameter
 
 	// previous data for frame interpolation
 	float		oldorigin[3];		// also used as MODEL_BEAM's "to"
-	int			oldframe;
+	int32_t			oldframe;
 	float		backlerp;			// 0.0 = current, 1.0 = old
 
 	// texturing
-	int			skinNum;			// inline skin index
+	int32_t			skinNum;			// inline skin index
 	qhandle_t	customSkin;			// NULL for default skin
 	qhandle_t	customShader;		// use one image for the entire thing
 
@@ -417,9 +422,9 @@ typedef struct {
 
 typedef struct pc_token_s
 {
-	int type;
-	int subtype;
-	int intvalue;
+	int32_t type;
+	int32_t subtype;
+	int32_t intvalue;
 	float floatvalue;
 	char string[MAX_TOKENLENGTH];
 } pc_token_t;
@@ -428,15 +433,15 @@ typedef struct pc_token_s
 #define	MAX_RENDER_STRING_LENGTH	32
 #define	MAX_MAP_AREA_BYTES		32		// bit vector of area visibility
 typedef struct {
-	int			x, y, width, height;
+	int32_t			x, y, width, height;
 	float		fov_x, fov_y;
 	vec3_t		vieworg;
 	vec3_t		viewaxis[3];		// transformation matrix
 
 	// time in milliseconds for shader effects and other time dependent rendering issues
-	int			time;
+	int32_t			time;
 
-	int			rdflags;			// RDF_NOWORLDMODEL, etc
+	int32_t			rdflags;			// RDF_NOWORLDMODEL, etc
 
 	// 1 bits will prevent the associated area from rendering at all
 	byte		areamask[MAX_MAP_AREA_BYTES];
@@ -446,15 +451,15 @@ typedef struct {
 } refdef_t;
 
 typedef struct qtime_s {
-	int tm_sec;     /* seconds after the minute - [0,59] */
-	int tm_min;     /* minutes after the hour - [0,59] */
-	int tm_hour;    /* hours since midnight - [0,23] */
-	int tm_mday;    /* day of the month - [1,31] */
-	int tm_mon;     /* months since January - [0,11] */
-	int tm_year;    /* years since 1900 */
-	int tm_wday;    /* days since Sunday - [0,6] */
-	int tm_yday;    /* days since January 1 - [0,365] */
-	int tm_isdst;   /* daylight savings time flag */
+	int32_t tm_sec;     /* seconds after the minute - [0,59] */
+	int32_t tm_min;     /* minutes after the hour - [0,59] */
+	int32_t tm_hour;    /* hours since midnight - [0,23] */
+	int32_t tm_mday;    /* day of the month - [1,31] */
+	int32_t tm_mon;     /* months since January - [0,11] */
+	int32_t tm_year;    /* years since 1900 */
+	int32_t tm_wday;    /* days since Sunday - [0,6] */
+	int32_t tm_yday;    /* days since January 1 - [0,365] */
+	int32_t tm_isdst;   /* daylight savings time flag */
 } qtime_t;
 
 typedef struct {
@@ -466,9 +471,9 @@ typedef struct {
 
 // usercmd_t is sent to the server each client frame
 typedef struct usercmd_s {
-	int				serverTime;
-	int				angles[3];
-	int 			buttons;
+	int32_t				serverTime;
+	int32_t				angles[3];
+	int32_t 			buttons;
 	byte			weapon;           // weapon 
 	signed char	forwardmove, rightmove, upmove;
 } usercmd_t;
@@ -483,72 +488,72 @@ typedef struct usercmd_s {
 #define	MAX_PS_EVENTS			2
 
 typedef struct playerState_s {
-	int			commandTime;	// cmd->serverTime of last executed command
-	int			pm_type;
-	int			bobCycle;		// for view bobbing and footstep generation
-	int			pm_flags;		// ducked, jump_held, etc
-	int			pm_time;
+	int32_t			commandTime;	// cmd->serverTime of last executed command
+	int32_t			pm_type;
+	int32_t			bobCycle;		// for view bobbing and footstep generation
+	int32_t			pm_flags;		// ducked, jump_held, etc
+	int32_t			pm_time;
 
 	vec3_t		origin;
 	vec3_t		velocity;
-	int			weaponTime;
-	int			gravity;
-	int			speed;
-	int			delta_angles[3];	// add to command angles to get view direction
+	int32_t			weaponTime;
+	int32_t			gravity;
+	int32_t			speed;
+	int32_t			delta_angles[3];	// add to command angles to get view direction
 									// changed by spawns, rotating objects, and teleporters
 
-	int			groundEntityNum;// ENTITYNUM_NONE = in air
+	int32_t			groundEntityNum;// ENTITYNUM_NONE = in air
 
-	int			legsTimer;		// don't change low priority animations until this runs out
-	int			legsAnim;		// mask off ANIM_TOGGLEBIT
+	int32_t			legsTimer;		// don't change low priority animations until this runs out
+	int32_t			legsAnim;		// mask off ANIM_TOGGLEBIT
 
-	int			torsoTimer;		// don't change low priority animations until this runs out
-	int			torsoAnim;		// mask off ANIM_TOGGLEBIT
+	int32_t			torsoTimer;		// don't change low priority animations until this runs out
+	int32_t			torsoAnim;		// mask off ANIM_TOGGLEBIT
 
-	int			movementDir;	// a number 0 to 7 that represents the reletive angle
+	int32_t			movementDir;	// a number 0 to 7 that represents the reletive angle
 								// of movement to the view angle (axial and diagonals)
 								// when at rest, the value will remain unchanged
 								// used to twist the legs during strafing
 
 	vec3_t		grapplePoint;	// location of grapple to pull towards if PMF_GRAPPLE_PULL
 
-	int			eFlags;			// copied to entityState_t->eFlags
+	int32_t			eFlags;			// copied to entityState_t->eFlags
 
-	int			eventSequence;	// pmove generated events
-	int			events[MAX_PS_EVENTS];
-	int			eventParms[MAX_PS_EVENTS];
+	int32_t			eventSequence;	// pmove generated events
+	int32_t			events[MAX_PS_EVENTS];
+	int32_t			eventParms[MAX_PS_EVENTS];
 
-	int			externalEvent;	// events set on player from another source
-	int			externalEventParm;
-	int			externalEventTime;
+	int32_t			externalEvent;	// events set on player from another source
+	int32_t			externalEventParm;
+	int32_t			externalEventTime;
 
-	int			clientNum;		// ranges from 0 to MAX_CLIENTS-1
-	int			weapon;			// copied to entityState_t->weapon
-	int			weaponstate;
+	int32_t			clientNum;		// ranges from 0 to MAX_CLIENTS-1
+	int32_t			weapon;			// copied to entityState_t->weapon
+	int32_t			weaponstate;
 
 	vec3_t		viewangles;		// for fixed views
-	int			viewheight;
+	int32_t			viewheight;
 
 	// damage feedback
-	int			damageEvent;	// when it changes, latch the other parms
-	int			damageYaw;
-	int			damagePitch;
-	int			damageCount;
+	int32_t			damageEvent;	// when it changes, latch the other parms
+	int32_t			damageYaw;
+	int32_t			damagePitch;
+	int32_t			damageCount;
 
-	int			stats[MAX_STATS];
-	int			persistant[MAX_PERSISTANT];	// stats that aren't cleared on death
-	int			powerups[MAX_POWERUPS];	// level.time that the powerup runs out
-	int			ammo[MAX_WEAPONS];
+	int32_t			stats[MAX_STATS];
+	int32_t			persistant[MAX_PERSISTANT];	// stats that aren't cleared on death
+	int32_t			powerups[MAX_POWERUPS];	// level.time that the powerup runs out
+	int32_t			ammo[MAX_WEAPONS];
 
-	int			generic1;
-	int			loopSound;
-	int			jumppad_ent;	// jumppad entity hit this frame
+	int32_t			generic1;
+	int32_t			loopSound;
+	int32_t			jumppad_ent;	// jumppad entity hit this frame
 
 	// not communicated over the net at all
-	int			ping;			// server to game info for scoreboard
-	int			pmove_framecount;	// FIXME: don't transmit over the network
-	int			jumppad_frame;
-	int			entityEventSequence;
+	int32_t			ping;			// server to game info for scoreboard
+	int32_t			pmove_framecount;	// FIXME: don't transmit over the network
+	int32_t			jumppad_frame;
+	int32_t			entityEventSequence;
 } playerState_t;
 
 // if entityState->solid == SOLID_BMODEL, modelindex is an inline model number
@@ -565,8 +570,8 @@ typedef enum {
 
 typedef struct {
 	trType_t	trType;
-	int		trTime;
-	int		trDuration;			// if non 0, trTime + trDuration = stop time
+	int32_t		trTime;
+	int32_t		trDuration;			// if non 0, trTime + trDuration = stop time
 	vec3_t	trBase;
 	vec3_t	trDelta;			// velocity, etc
 } trajectory_t;
@@ -579,15 +584,15 @@ typedef struct {
 // the structure size is fairly large
 
 typedef struct entityState_s {
-	int		number;			// entity index
-	int		eType;			// entityType_t
-	int		eFlags;
+	int32_t		number;			// entity index
+	int32_t		eType;			// entityType_t
+	int32_t		eFlags;
 
 	trajectory_t	pos;	// for calculating position
 	trajectory_t	apos;	// for calculating angles
 
-	int		time;
-	int		time2;
+	int32_t		time;
+	int32_t		time2;
 
 	vec3_t	origin;
 	vec3_t	origin2;
@@ -595,31 +600,31 @@ typedef struct entityState_s {
 	vec3_t	angles;
 	vec3_t	angles2;
 
-	int		otherEntityNum;	// shotgun sources, etc
-	int		otherEntityNum2;
+	int32_t		otherEntityNum;	// shotgun sources, etc
+	int32_t		otherEntityNum2;
 
-	int		groundEntityNum;	// -1 = in air
+	int32_t		groundEntityNum;	// -1 = in air
 
-	int		constantLight;	// r + (g<<8) + (b<<16) + (intensity<<24)
-	int		loopSound;		// constantly loop this sound
+	int32_t		constantLight;	// r + (g<<8) + (b<<16) + (intensity<<24)
+	int32_t		loopSound;		// constantly loop this sound
 
-	int		modelindex;
-	int		modelindex2;
-	int		clientNum;		// 0 to (MAX_CLIENTS - 1), for players and corpses
-	int		frame;
+	int32_t		modelindex;
+	int32_t		modelindex2;
+	int32_t		clientNum;		// 0 to (MAX_CLIENTS - 1), for players and corpses
+	int32_t		frame;
 
-	int		solid;			// for client side prediction, trap_linkentity sets this properly
+	int32_t		solid;			// for client side prediction, trap_linkentity sets this properly
 
-	int		event;			// impulse events -- muzzle flashes, footsteps, etc
-	int		eventParm;
+	int32_t		event;			// impulse events -- muzzle flashes, footsteps, etc
+	int32_t		eventParm;
 
 	// for players
-	int		powerups;		// bit flags
-	int		weapon;			// determines weapon and flash model, etc
-	int		legsAnim;		// mask off ANIM_TOGGLEBIT
-	int		torsoAnim;		// mask off ANIM_TOGGLEBIT
+	int32_t		powerups;		// bit flags
+	int32_t		weapon;			// determines weapon and flash model, etc
+	int32_t		legsAnim;		// mask off ANIM_TOGGLEBIT
+	int32_t		torsoAnim;		// mask off ANIM_TOGGLEBIT
 
-	int		generic1;
+	int32_t		generic1;
 } entityState_t;
 
 // snapshots are a view of the server at a given time
@@ -628,20 +633,20 @@ typedef struct entityState_s {
 // but they may not be sent if a client's rate level is exceeded, or
 // they may be dropped by the network.
 typedef struct {
-	int				snapFlags;			// SNAPFLAG_RATE_DELAYED, etc
-	int				ping;
+	int32_t				snapFlags;			// SNAPFLAG_RATE_DELAYED, etc
+	int32_t				ping;
 
-	int				serverTime;		// server time the message is valid for (in msec)
+	int32_t				serverTime;		// server time the message is valid for (in msec)
 
 	byte			areamask[MAX_MAP_AREA_BYTES];		// portalarea visibility bits
 
 	playerState_t	ps;						// complete information about the current player at this time
 
-	int				numEntities;			// all of the entities that need to be presented
+	int32_t				numEntities;			// all of the entities that need to be presented
 	entityState_t	entities[MAX_ENTITIES_IN_SNAPSHOT];	// at the time of this snapshot
 
-	int				numServerCommands;		// text based server commands to execute when this
-	int				serverCommandSequence;	// snapshot becomes current
+	int32_t				numServerCommands;		// text based server commands to execute when this
+	int32_t				serverCommandSequence;	// snapshot becomes current
 } snapshot_t;
 
 
