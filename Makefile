@@ -7,7 +7,7 @@ BINARY = cgamei386
 SRC_FILES = $(shell ls *.c)
 HDR_FILES = $(shell ls *.h)
 
-SVN_VERSION=$(shell svnversion)
+GIT_VERSION=$(shell git log -1 --pretty=%h)
 
 DATE=$(shell date +%F)
 HOUR=$(shell date +%H)
@@ -24,8 +24,8 @@ BD=$(BROOT)/debug
 OBJR_Q3A=$(SRC_FILES:%.c=$(BR)$(B_Q3A)/%.o)
 OBJD_Q3A=$(SRC_FILES:%.c=$(BD)$(B_Q3A)/%.o)
 
-DEBUG_DEFINES=-DSVN_VERSION=\"$(SVN_VERSION)\" -DCOMPILE_DATE=\"$(COMPILE_DATE)\"
-RELEASE_DEFINES=-DSVN_VERSION=\"$(SVN_VERSION)\" -DCOMPILE_DATE=\"$(COMPILE_DATE)\"
+DEBUG_DEFINES=-DGIT_VERSION=\"$(GIT_VERSION)\" -DCOMPILE_DATE=\"$(COMPILE_DATE)\"
+RELEASE_DEFINES=-DGIT_VERSION=\"$(GIT_VERSION)\" -DCOMPILE_DATE=\"$(COMPILE_DATE)\"
 
 DEBUG_CFLAGS=$(BASE_CFLAGS) -ggdb -g -pg $(DEBUG_DEFINES) -I/usr/include/libxml2
 RELEASE_CFLAGS=$(BASE_CFLAGS) -Os $(RELEASE_DEFINES) -I/usr/include/libxml2
@@ -59,7 +59,7 @@ all: banner release
 
 banner:
 	@printf "\n"
-	@printf "\033\13301;31mmDd \033\13301;33mRS Makefile  (rev-$(SVN_VERSION)) (%s)\n" $(COMPILE_DATE)
+	@printf "\033\13301;31mmDd \033\13301;33mRS Makefile  (rev-$(GIT_VERSION)) (%s)\n" $(COMPILE_DATE)
 	@printf "\n\033\13301;32m----------------------------------------------------------\n\033\13300;39m"
 
 clean:
