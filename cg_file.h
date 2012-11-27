@@ -1,3 +1,7 @@
+#ifndef __FILE_H__
+#define __FILE_H__
+
+
 typedef uint32_t fileHandle_t;
 
 //mode parm for FS_FOpenFile
@@ -13,3 +17,5 @@ typedef enum {
 	FS_SEEK_END,
 	FS_SEEK_SET
 } fsOrigin_t;
+
+#endif // __FILE_H__

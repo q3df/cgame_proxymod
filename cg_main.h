@@ -45,6 +45,8 @@ typedef enum {
 	//	void (*CG_EventHandling)(int32_t type);
 } cgameExport_t;
 
+
+
 int32_t cg_init( int32_t cmd, int32_t clientNum );
 
 
