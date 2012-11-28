@@ -1,6 +1,7 @@
 #include "cg_local.h"
 #include "cg_main.h"
 #include "cg_consolecmds.h"
+#include "cg_draw.h"
 
 cgs_t cgs;
 

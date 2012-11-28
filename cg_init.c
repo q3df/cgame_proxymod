@@ -1,6 +1,8 @@
 #include <math.h>
+#include <stdlib.h>
 #include "cg_local.h"
-
+#include "cg_init.h"
+#include "cg_draw.h"
 
 
 syscall_t g_syscall = NULL;
@@ -12,7 +14,7 @@ __DLLEXPORT__ void dllEntry( syscall_t psyscall ) {
 
 void cg_init( int32_t cmd, int32_t clientNum ) {
 
-	g_syscall( CG_PRINT, "^7[^1m^3D^1d^7] cgame-proxy\n" );
+	g_syscall( CG_PRINT, vaf("^7[^1m^3D^1d^7] cgame-proxy: %s\n", VERSION) );
 	initVM();
 
 	// g_syscall( CG_MEMSET, ...)
@@ -34,15 +36,16 @@ void init_gfx( int32_t clientNum ) {
 
 	cgs.levelStartTime = atoi( CG_ConfigString(21) ); // levelStartTime
 	
-	cgs.gfxCharsetShader   = g_syscall( CG_R_REGISTERSHADER, "gfx/2d/bigchars" );
-	cgs.gfxWhiteShader     = g_syscall( CG_R_REGISTERSHADER, "white" );
-	cgs.gfxCharsetProp     = g_syscall( CG_R_REGISTERSHADER, "menu/art/font1_prop.tga" );
-	cgs.gfxCharsetPropGlow = g_syscall( CG_R_REGISTERSHADER, "menu/art/font1_prop_glo.tga" );
-	cgs.gfxCharsetPropB    = g_syscall( CG_R_REGISTERSHADER, "menu/art/font2_prop.tga" );
+	cgs.media.gfxCharsetShader   = g_syscall( CG_R_REGISTERSHADER, "gfx/2d/bigchars" );
+	cgs.media.gfxWhiteShader     = g_syscall( CG_R_REGISTERSHADER, "white" );
+	cgs.media.gfxCharsetProp     = g_syscall( CG_R_REGISTERSHADER, "menu/art/font1_prop.tga" );
+	cgs.media.gfxCharsetPropGlow = g_syscall( CG_R_REGISTERSHADER, "menu/art/font1_prop_glo.tga" );
+	cgs.media.gfxCharsetPropB    = g_syscall( CG_R_REGISTERSHADER, "menu/art/font2_prop.tga" );
 }
 
 
 
 void init_hud( void ) {
-	cgs.gfxLogo = g_syscall( CG_R_REGISTERSHADER, "gfx/mdd/logo.tga" );
+//	cgs.media.gfxLogo = g_syscall( CG_R_REGISTERSHADER, "gfx/mdd/logo.tga" );
+	cgs.media.gfxLogo = g_syscall( CG_R_REGISTERSHADER, "gfx/misc/console01.tga" );
 }

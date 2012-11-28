@@ -26,7 +26,8 @@
 #define DEFAULT_VMPATH   "vm/cgame.qvm"
 #define GAME             "Q3A"
 
-#define VERSION 0.0.0.2 //<mayor>.<compat>.<minor>.<build>
+//<mayor>.<compat>.<minor>.<build>
+#define VERSION "0.0.0.6"
 
 
 
@@ -271,6 +272,17 @@ typedef struct {
 
 
 typedef struct {
+	/* GFX Handles */
+	qhandle_t		gfxLogo;
+	qhandle_t		gfxWhiteShader;
+	qhandle_t		gfxCharsetShader;
+	qhandle_t		gfxCharsetProp;
+	qhandle_t		gfxCharsetPropGlow;
+	qhandle_t		gfxCharsetPropB;
+} cgMedia_t;
+
+
+typedef struct {
 	/* from cgs_t */
 	gameState_t		gameState;			// gamestate from server
 	glconfig_t		glconfig;			// rendering configuration
@@ -283,14 +295,7 @@ typedef struct {
 	/* from cg */
 	int32_t				time;
 
-	/* GFX Handles */
-	qhandle_t		gfxLogo;
-	qhandle_t		gfxWhiteShader;
-
-	qhandle_t		gfxCharsetShader;
-	qhandle_t		gfxCharsetProp;
-	qhandle_t		gfxCharsetPropGlow;
-	qhandle_t		gfxCharsetPropB;		
+	cgMedia_t media;
 } cgs_t;
 
 

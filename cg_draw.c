@@ -1,5 +1,10 @@
+#include "cg_local.h"
+#include "cg_draw.h"
+
+
+
 int32_t CG_DrawActiveFrame( int32_t serverTime, stereoFrame_t stereoView, qboolean demoPlayback ) {
-	CG_DrawAdjPic(640-300, 10, 280, 46, cgs.gfxLogo);
+	CG_DrawAdjPic( 10, 10, 200, 200, cgs.media.gfxLogo );
 	return 0;
 }
 
