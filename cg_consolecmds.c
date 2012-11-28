@@ -4,22 +4,14 @@
 
 
 qboolean *CG_ConsoleCommand( void ) {
-/*
-  const char  *cmd;
-  int   i;
+  char cmdBuffer[256];
+	uint32_t argc;
 
-  cmd = CG_Argv(0);
+	argc = g_syscall( CG_ARGC );
+	g_syscall( CG_ARGV, 0, cmdBuffer, sizeof(cmdBuffer) );
 
-  for ( i = 0 ; i < ARRAY_LEN( commands ) ; i++ ) {
-    if ( !Q_stricmp( cmd, commands[i].cmd ) ) {
-      commands[i].function();
-      return qtrue;
-    }
-  }
-
-  return qfalse;
-*/
-
+	//g_syscall( CG_PRINT, vaf("^6%s^7\n", cmdBuffer) );
+	// TODO: check if the player uses one of our commands
 
 	return qfalse; // not a command
 }
