@@ -21,6 +21,7 @@ void cg_init( int32_t cmd, int32_t clientNum ) {
 	memset( &cgs, 0, sizeof( cgs ) );
 
 	init_gfx( clientNum );
+	init_hud( );
 }
 
 
@@ -46,6 +47,6 @@ void init_gfx( int32_t clientNum ) {
 
 
 void init_hud( void ) {
-//	cgs.media.gfxLogo = g_syscall( CG_R_REGISTERSHADER, "gfx/mdd/logo.tga" );
-	cgs.media.gfxLogo = g_syscall( CG_R_REGISTERSHADER, "gfx/misc/console01.tga" );
+	// cgs.media.gfxLogo = g_syscall( CG_R_REGISTERSHADER, "gfx/mdd/logo.tga" );
+	cgs.media.gfxLogo = g_syscall( CG_R_REGISTERSHADER, "gfx/rd.jpeg" );
 }

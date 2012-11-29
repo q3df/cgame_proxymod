@@ -22,6 +22,7 @@ __DLLEXPORT__ int32_t vmMain( int32_t cmd, int32_t arg0, int32_t arg1, int32_t a
 		break;
 
 		case CG_DRAW_ACTIVE_FRAME: // void (*CG_DrawActiveFrame)( int32_t serverTime, stereoFrame_t stereoView, qboolean demoPlayback );
+			cgs.time = arg0; // servertime
 		break;
 
 		case CG_CROSSHAIR_PLAYER: // int32_t (*CG_CrosshairPlayer)( void );
