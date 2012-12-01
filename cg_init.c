@@ -3,6 +3,7 @@
 #include "cg_local.h"
 #include "cg_init.h"
 #include "cg_draw.h"
+#include "cg_utils.h"
 
 
 syscall_t g_syscall = NULL;
@@ -35,7 +36,7 @@ void init_gfx( int32_t clientNum ) {
 
 	g_syscall( CG_GETGAMESTATE, &cgs.gameState );
 
-	cgs.levelStartTime = atoi( CG_ConfigString(21) ); // levelStartTime
+	cgs.levelStartTime = atoi( getConfigString(21) ); // levelStartTime
 	
 	cgs.media.gfxCharsetShader   = g_syscall( CG_R_REGISTERSHADER, "gfx/2d/bigchars" );
 	cgs.media.gfxWhiteShader     = g_syscall( CG_R_REGISTERSHADER, "white" );
@@ -48,5 +49,5 @@ void init_gfx( int32_t clientNum ) {
 
 void init_hud( void ) {
 	// cgs.media.gfxLogo = g_syscall( CG_R_REGISTERSHADER, "gfx/mdd/logo.tga" );
-	cgs.media.gfxLogo = g_syscall( CG_R_REGISTERSHADER, "gfx/rd.jpeg" );
+	cgs.media.gfxLogo = g_syscall( CG_R_REGISTERSHADER, "gfx/mdd/rd-mini" );
 }

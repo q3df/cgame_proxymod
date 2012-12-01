@@ -20,9 +20,21 @@ char* vaf(char* format, ...) {
 
 
 
-const char *CG_ConfigString( int32_t index ) {
+const char *getConfigString( int32_t index ) {
 	if( index < 0 || index >= MAX_CONFIGSTRINGS ) {
 		g_syscall( CG_ERROR, vaf( "CG_ConfigString: bad index: %i", index ));
 	}
 	return cgs.gameState.stringData + cgs.gameState.stringOffsets[index];
+}
+
+
+
+playerState_t *getPs( void ) {
+	static playerState_t tmp;
+	int32_t curSnapNum;
+	int32_t servertime;
+
+ 	g_syscall( CG_GETCURRENTSNAPSHOTNUMBER, &curSnapNum, &servertime );
+	g_syscall( CG_GETSNAPSHOT, curSnapNum, &tmp );
+	return &tmp;
 }

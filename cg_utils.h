@@ -2,9 +2,10 @@
 #define __UTILS_H__
 
 
-
+// strings
 char* vaf(char* format, ...);
-const char *CG_ConfigString( int32_t index );
+const char *getConfigString( int32_t index );
 
+playerState_t *getPs( void );
 
-#endif __UTILS_H__
+#endif // __UTILS_H__
