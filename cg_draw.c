@@ -83,11 +83,13 @@ void CG_AdjustFrom640( float *x, float *y, float *w, float *h ) {
 
 
 void convertAdjustedToNative ( float *xAdj, float *yAdj, float *wAdj, float *hAdj ) {
-	*xAdj = (((float)cgs.glconfig.vidWidth)  / 640.0) * (*xAdj);
-	*yAdj = (((float)cgs.glconfig.vidHeight) / 480.0) * (*yAdj);
+	*xAdj = ((cgs.glconfig.vidWidth)  / 640.0) * (*xAdj);
+	*yAdj = ((cgs.glconfig.vidHeight) / 480.0) * (*yAdj);
 
-	*wAdj = (((float)cgs.glconfig.vidWidth)  / 640.0) * (*wAdj);
-	*hAdj = (((float)cgs.glconfig.vidHeight) / 480.0) * (*hAdj);
+//	*wAdj = (((float)cgs.glconfig.vidWidth)  / 640.0) * (*wAdj);
+	*wAdj = ((cgs.glconfig.vidWidth)  / 640.0) * (*wAdj);
+	*hAdj = ((cgs.glconfig.vidHeight) / 480.0) * (*hAdj);
+
 }
 
 
