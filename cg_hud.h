@@ -13,10 +13,11 @@ typedef struct {
 } hud_bar_t;
 
 
+
 void hud_draw( void );
-hud_bar_t hud_vBarSetup( float xPosAdj, float yPosAdj, float widthAdj, float heightAdj );
-int8_t hud_vBarDraw( float percent, hud_bar_t bar );
-int8_t hud_hBarDraw( float percent, hud_bar_t bar );
+int8_t hud_vBarSetup( hud_bar_t *bar, float xPosAdj, float yPosAdj, float widthAdj, float heightAdj );
+int8_t hud_vBarDraw( float percent, hud_bar_t *bar );
+int8_t hud_hBarDraw( float percent, hud_bar_t *bar );
 
 // helper
 int8_t hud_boxDraw( float x, float y, float w, float h, vec4_t color );
