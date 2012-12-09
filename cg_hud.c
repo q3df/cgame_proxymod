@@ -17,6 +17,11 @@ void hud_draw( void ) {
 
 
 
+/*
+ *
+ * Draw and setup BARS
+ *
+ */
 int8_t hud_vBarDraw( float percent, hud_bar_t *bar ) {
 	float barLength;
 
@@ -48,6 +53,7 @@ int8_t hud_vBarDraw( float percent, hud_bar_t *bar ) {
 
 
 int8_t hud_hBarDraw( float percent, hud_bar_t *bar ) {
+	// TODO: implement
 	return qtrue;
 }
 
@@ -102,5 +108,25 @@ int8_t hud_vBarSetup( hud_bar_t *bar, float xPosAdj, float yPosAdj, float widthA
 
 	// convert adjusted coordinates to native ones
 	convertAdjustedToNative( &bar->xPos, &bar->yPos, &bar->width, &bar->height );
+	return qtrue;
+}
+
+
+
+/*
+ *
+ * Draw AmmoHud
+ *
+ */
+
+int8_t hud_ammo( void ) {
+	// mdd_hud_ammo_draw decides whether the hud should be displayed at all
+	// mdd_hud_ammo_weapons is a bitfield that contains the weapons that should be displayed
+
+	// TODO: draw ammo icon for every weapon that is to be displayed
+	// TODO: color the ammo icon
+	// TODO: draw text with ammo count for every weapon
+	// TODO: color the text of the ammo red in case of low ammo
+	// TODO: make textsize cvar dependant
 	return qtrue;
 }

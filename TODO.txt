@@ -1,15 +1,15 @@
 <mayor>.<compat>.<minor>.<build>
 
+v0.0.1.0
+====================
+- have one feature ready for testing
+	- this will be the ammo hud
+
+
 v0.0.2.0
 ====================
-- display boxes and simple graphs
+- display simple graphs
 - GPL header in every file and a License file
-- fix Makefile so it displays the GIT revision instead of SVN
-
-v0.0.3.0
-====================
-- display pictures ingame
-
 
 v0.0.4.0
 ====================
