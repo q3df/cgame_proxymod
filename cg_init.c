@@ -1,9 +1,12 @@
 #include <math.h>
 #include <stdlib.h>
+
 #include "cg_local.h"
 #include "cg_init.h"
 #include "cg_draw.h"
+#include "cg_cvar.h"
 #include "cg_utils.h"
+
 
 
 syscall_t g_syscall = NULL;
@@ -23,6 +26,7 @@ void cg_init( int32_t cmd, int32_t clientNum ) {
 
 	init_gfx( clientNum );
 	init_hud( );
+	init_cvars( );
 }
 
 

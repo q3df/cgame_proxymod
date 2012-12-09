@@ -2,6 +2,11 @@
 #define __UTILS_H__
 
 
+
+#define ARRAY_LEN(x)  (sizeof(x) / sizeof(*(x)))
+
+
+
 // strings
 char* vaf(char* format, ...);
 const char *getConfigString( int32_t index );
