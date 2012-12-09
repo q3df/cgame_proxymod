@@ -83,17 +83,29 @@ void CG_AdjustFrom640( float *x, float *y, float *w, float *h ) {
 
 
 void convertAdjustedToNative ( float *xAdj, float *yAdj, float *wAdj, float *hAdj ) {
-	*xAdj = ((cgs.glconfig.vidWidth)  / 640.0) * (*xAdj);
-	*yAdj = ((cgs.glconfig.vidHeight) / 480.0) * (*yAdj);
+	if( xAdj != NULL )
+		*xAdj = ((cgs.glconfig.vidWidth)  / 640.0) * (*xAdj);
 
-//	*wAdj = (((float)cgs.glconfig.vidWidth)  / 640.0) * (*wAdj);
-	*wAdj = ((cgs.glconfig.vidWidth)  / 640.0) * (*wAdj);
-	*hAdj = ((cgs.glconfig.vidHeight) / 480.0) * (*hAdj);
+	if( yAdj != NULL )
+		*yAdj = ((cgs.glconfig.vidHeight) / 480.0) * (*yAdj);
 
+	if( wAdj != NULL )
+		*wAdj = ((cgs.glconfig.vidWidth)  / 640.0) * (*wAdj);
+
+	if( hAdj != NULL )
+		*hAdj = ((cgs.glconfig.vidHeight) / 480.0) * (*hAdj);
+
+	return;
 }
 
 
 
 void convertNativeToAdjusted ( float *x, float *y, float *w, float *h ) {
 	;// TODO: implement
+}
+
+
+
+void drawChar( int32_t x, int32_t y, int32_t width, int32_t height, char c ) {
+	;
 }

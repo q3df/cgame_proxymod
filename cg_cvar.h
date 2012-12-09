@@ -50,7 +50,7 @@ typedef struct {
 
 
 
-int8_t cvar_getInt( const char *var_name, int32_t *value );
+int8_t cvar_getFloat( const char *var_name, float *value );
 int8_t init_cvars( void );
 
 

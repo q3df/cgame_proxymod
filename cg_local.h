@@ -27,7 +27,7 @@
 #define GAME             "Q3A"
 
 //<mayor>.<compat>.<minor>.<build>
-#define VERSION "0.0.0.16"
+#define VERSION "0.0.0.17"
 
 
 
@@ -273,12 +273,16 @@ typedef struct {
 
 typedef struct {
 	/* GFX Handles */
-	qhandle_t		gfxLogo;
 	qhandle_t		gfxWhiteShader;
 	qhandle_t		gfxCharsetShader;
 	qhandle_t		gfxCharsetProp;
 	qhandle_t		gfxCharsetPropGlow;
 	qhandle_t		gfxCharsetPropB;
+
+	qhandle_t		gfxLogo;
+
+	/* Ammo hud */
+	qhandle_t		gfxAmmo[16];
 } cgMedia_t;
 
 

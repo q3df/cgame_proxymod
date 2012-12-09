@@ -5,21 +5,39 @@
 
 
 
+//static hud_bar_t bar;
+static hud_ammo_t ammo;
+
+
+
+void hud_setup( void ) {
+//	hud_vBarSetup( &bar, 230, 400, 200, 20 );
+	hud_ammoSetup( &ammo, 620, 20 );
+}
+
+
+
 void hud_draw( void ) {
-	int32_t cg_fov;
-	hud_bar_t x;
+	float hud_draw, hud_ammo_draw;
 
-	hud_vBarSetup( &x, 230, 400, 200, 20 );
+	cvar_getFloat( "mdd_hud_draw", &hud_draw );
+	if( !hud_draw )
+		return;
 
-	cvar_getInt( "cg_fov", &cg_fov );
-	hud_vBarDraw( cg_fov, &x );
+	cvar_getFloat( "mdd_hud_ammo_draw", &hud_ammo_draw );
+//	cvar_getFloat( "cg_fov", &cg_fov );
+
+//	hud_vBarDraw( cg_fov, &bar );
+
+	if( hud_ammo_draw )
+		hud_ammoDraw( &ammo );
 }
 
 
 
 /*
  *
- * Draw and setup BARS
+ * Setup and Draw BARS
  *
  */
 int8_t hud_vBarDraw( float percent, hud_bar_t *bar ) {
@@ -91,6 +109,9 @@ int8_t hud_vBarSetup( hud_bar_t *bar, float xPosAdj, float yPosAdj, float widthA
 	// Position graph on adjusted 640x480 grid
 	// Switch to native resolution and draw graph
 	// Bar slides in from both sides and hits in the center
+	float mdd_hud_opacity;
+
+	cvar_getFloat( "mdd_hud_opacity", &mdd_hud_opacity );
 
 	bar->width  = widthAdj;
 	bar->height = heightAdj;
@@ -100,11 +121,11 @@ int8_t hud_vBarSetup( hud_bar_t *bar, float xPosAdj, float yPosAdj, float widthA
 	bar->colorBackdrop[0] = 1.0;
 	bar->colorBackdrop[1] = 1.0;
 	bar->colorBackdrop[2] = 1.0;
-	bar->colorBackdrop[3] = 0.5;
+	bar->colorBackdrop[3] = mdd_hud_opacity;
 	bar->colorBar[0] = 0.8;
 	bar->colorBar[1] = 0.0;
 	bar->colorBar[2] = 1.0;
-	bar->colorBar[3] = 0.8;
+	bar->colorBar[3] = mdd_hud_opacity;
 
 	// convert adjusted coordinates to native ones
 	convertAdjustedToNative( &bar->xPos, &bar->yPos, &bar->width, &bar->height );
@@ -115,11 +136,39 @@ int8_t hud_vBarSetup( hud_bar_t *bar, float xPosAdj, float yPosAdj, float widthA
 
 /*
  *
- * Draw AmmoHud
+ * Setup and Draw AMMO HUD
  *
  */
 
-int8_t hud_ammo( void ) {
+int8_t hud_ammoSetup( hud_ammo_t *hud, float xPosAdj, float yPosAdj ) {
+	float mdd_hud_opacity;
+
+	cvar_getFloat( "mdd_hud_opacity", &mdd_hud_opacity );
+
+	hud->xPos = xPosAdj;
+	hud->yPos = yPosAdj;
+
+	hud->textColor[0] = 1.0;
+	hud->textColor[1] = 1.0;
+	hud->textColor[2] = 1.0;
+	hud->textColor[3] = mdd_hud_opacity;
+
+	convertAdjustedToNative( &hud->xPos, &hud->yPos, NULL, NULL );
+	return qtrue;
+}
+
+
+
+int8_t hud_ammoDraw( hud_ammo_t *hud ) {
+	uint32_t y, i;
+
+	y = hud->yPos;
+	for( i=0; i<8; i++ ) {
+		CG_DrawPic( hud->xPos, y, 32, 32, cgs.media.gfxAmmo[i] );
+		y += 32;
+	}
+
+
 	// mdd_hud_ammo_draw decides whether the hud should be displayed at all
 	// mdd_hud_ammo_weapons is a bitfield that contains the weapons that should be displayed
 

@@ -7,12 +7,14 @@
 
 vmCvar_t mdd_cgameproxy_version;
 vmCvar_t mdd_hud_draw;
+vmCvar_t mdd_hud_opacity;
 vmCvar_t mdd_hud_ammo_draw;
 vmCvar_t mdd_hud_ammo_weapons;
 
 static cvarTable_t cvarTable[] = {
 	{ &mdd_cgameproxy_version, "mdd_cgameproxy_version", VERSION, CVAR_USERINFO|CVAR_INIT },
 	{ &mdd_hud_draw,           "mdd_hud_draw",           "1",     CVAR_ARCHIVE },
+	{ &mdd_hud_ammo_weapons,   "mdd_hud_opacity",        "0.5",   CVAR_ARCHIVE },
 	{ &mdd_hud_ammo_draw,      "mdd_hud_ammo_draw",      "0",     CVAR_ARCHIVE },
 	{ &mdd_hud_ammo_weapons,   "mdd_hud_ammo_weapons",   "0",     CVAR_ARCHIVE }
 };
@@ -25,12 +27,12 @@ int8_t cvar_register( char *name, char *value ) {
 
 
 
-int8_t cvar_getInt( const char *var_name, int32_t *value ) {
+int8_t cvar_getFloat( const char *var_name, float *value ) {
 	char buffer[1024];
 
 	g_syscall( CG_CVAR_VARIABLESTRINGBUFFER, var_name, buffer, 256 );
-	*value = atoi( buffer ); // can't tell if 0 or ERROR
-	// TODO: make this return qfalse in case of error -> no atoi()
+	*value = atof( buffer ); // can't tell if 0 or ERROR
+	// TODO: make this return qfalse in case of error -> no atof()
 
 	return qtrue;
 }
