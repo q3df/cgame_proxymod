@@ -13,7 +13,7 @@ static hud_ammo_t ammo;
 
 void hud_setup( void ) {
 //	hud_vBarSetup( &bar, 230, 400, 200, 20 );
-	hud_ammoSetup( &ammo, 620, 20 );
+	hud_ammoSetup( );
 }
 
 
@@ -141,20 +141,23 @@ int8_t hud_vBarSetup( hud_bar_t *bar, float xPosAdj, float yPosAdj, float widthA
  *
  */
 
-int8_t hud_ammoSetup( hud_ammo_t *hud, float xPosAdj, float yPosAdj ) {
+int8_t hud_ammoSetup( void ) {
 	float mdd_hud_opacity;
+	float xPosAdj, yPosAdj;
 
 	cvar_getFloat( "mdd_hud_opacity", &mdd_hud_opacity );
+	cvar_getFloat( "mdd_hud_ammo_OffsetX", &xPosAdj );
+	cvar_getFloat( "mdd_hud_ammo_OffsetY", &yPosAdj );
 
-	hud->xPos = xPosAdj;
-	hud->yPos = yPosAdj;
+	ammo.xPos = xPosAdj;
+	ammo.yPos = yPosAdj;
 
-	hud->textColor[0] = 1.0;
-	hud->textColor[1] = 1.0;
-	hud->textColor[2] = 1.0;
-	hud->textColor[3] = mdd_hud_opacity;
+	ammo.textColor[0] = 1.0;
+	ammo.textColor[1] = 1.0;
+	ammo.textColor[2] = 1.0;
+	ammo.textColor[3] = mdd_hud_opacity;
 
-	convertAdjustedToNative( &hud->xPos, &hud->yPos, NULL, NULL );
+	convertAdjustedToNative( &ammo.xPos, &ammo.yPos, NULL, NULL );
 	return qtrue;
 }
 
@@ -168,18 +171,16 @@ int8_t hud_ammoDraw( hud_ammo_t *hud ) {
 
 	y = hud->yPos;
 	for( i=1; i<9; i++ ) {
-		CG_DrawPic( hud->xPos, y, 32, 32, cgs.media.gfxAmmo[i] );
-		CG_DrawText( hud->xPos, y+8, 16, hud->textColor, qtrue, vaf("%i", ps->ammo[i+1]) );
-		y += 32;
+		if( hud->weapons == 0 && ps->ammo[i+1]) {
+			CG_DrawPic( hud->xPos, y, 32, 32, cgs.media.gfxAmmo[i] );
+			CG_DrawText( hud->xPos, y+8, 16, hud->textColor, qtrue, vaf("%i", ps->ammo[i+1]) );
+			y += 32;
+		}
 	}
 
 
-	// mdd_hud_ammo_draw decides whether the hud should be displayed at all
 	// mdd_hud_ammo_weapons is a bitfield that contains the weapons that should be displayed
 
-	// TODO: draw ammo icon for every weapon that is to be displayed
-	// TODO: color the ammo icon
-	// TODO: draw text with ammo count for every weapon
 	// TODO: color the text of the ammo red in case of low ammo
 	// TODO: make textsize cvar dependant
 	return qtrue;
