@@ -30,11 +30,12 @@ const char *getConfigString( int32_t index ) {
 
 
 playerState_t *getPs( void ) {
-	static playerState_t tmp;
-	int32_t curSnapNum;
-	int32_t servertime;
+	static snapshot_t tmp;
+	uint32_t curSnapNum;
+	uint32_t servertime;
 
  	g_syscall( CG_GETCURRENTSNAPSHOTNUMBER, &curSnapNum, &servertime );
 	g_syscall( CG_GETSNAPSHOT, curSnapNum, &tmp );
-	return &tmp;
+
+	return &tmp.ps;
 }

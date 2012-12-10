@@ -27,7 +27,7 @@
 #define GAME             "Q3A"
 
 //<mayor>.<compat>.<minor>.<build>
-#define VERSION "0.0.0.17"
+#define VERSION "0.0.0.19"
 
 
 
@@ -288,16 +288,16 @@ typedef struct {
 
 typedef struct {
 	/* from cgs_t */
-	gameState_t		gameState;			// gamestate from server
-	glconfig_t		glconfig;			// rendering configuration
-	int32_t				clientNum;
-	float			screenXScale;		// derived from glconfig
-	float			screenYScale;
-	int32_t				levelStartTime;
-	float			screenXBias;
+	gameState_t gameState; // gamestate from server
+	glconfig_t  glconfig;  // rendering configuration
+	int32_t clientNum;
+	float   screenXScale;  // derived from glconfig
+	float   screenYScale;
+	int32_t levelStartTime;
+	float   screenXBias;
 
 	/* from cg */
-	int32_t				time;
+	int32_t time;
 
 	cgMedia_t media;
 } cgs_t;

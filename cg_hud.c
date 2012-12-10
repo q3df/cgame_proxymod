@@ -2,6 +2,7 @@
 #include "cg_draw.h"
 #include "cg_hud.h"
 #include "cg_cvar.h"
+#include "cg_utils.h"
 
 
 
@@ -161,10 +162,14 @@ int8_t hud_ammoSetup( hud_ammo_t *hud, float xPosAdj, float yPosAdj ) {
 
 int8_t hud_ammoDraw( hud_ammo_t *hud ) {
 	uint32_t y, i;
+	playerState_t *ps;
+
+	ps = getPs( );
 
 	y = hud->yPos;
-	for( i=0; i<8; i++ ) {
+	for( i=1; i<9; i++ ) {
 		CG_DrawPic( hud->xPos, y, 32, 32, cgs.media.gfxAmmo[i] );
+		CG_DrawText( hud->xPos, y+8, 16, hud->textColor, qtrue, vaf("%i", ps->ammo[i+1]) );
 		y += 32;
 	}
 

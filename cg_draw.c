@@ -106,6 +106,53 @@ void convertNativeToAdjusted ( float *x, float *y, float *w, float *h ) {
 
 
 
-void drawChar( int32_t x, int32_t y, int32_t width, int32_t height, char c ) {
-	;
+void drawChar( int32_t x, int32_t y, int32_t width, int32_t height, uint8_t c ) {
+	int32_t row, col;
+	float frow, fcol;
+	float size;
+
+	row = c>>4;
+	col = c&15;
+
+	frow = row*0.0625;
+	fcol = col*0.0625;
+	size = 0.0625;
+
+	g_syscall( CG_R_DRAWSTRETCHPIC,
+		PASSFLOAT(x), PASSFLOAT(y), PASSFLOAT(width), PASSFLOAT(height),
+		PASSFLOAT(fcol), PASSFLOAT(frow), PASSFLOAT(fcol+size), PASSFLOAT(frow+size),
+		cgs.media.gfxCharsetShader
+	);
+}
+
+
+
+void CG_DrawText( float x, float y, float sizePx, vec4_t color, uint8_t alignRight, const char *string ) {
+	// TODO: color
+	const char *s;
+	float tmpX;
+	uint32_t len;
+	int32_t i;
+
+	if( string == NULL )
+		return;
+
+	s = string;
+	tmpX = x;
+
+	if( alignRight ) {
+		len = strlen( string );
+		for( i=len-1; i>=0; i-- ) {
+			tmpX -= sizePx;
+			drawChar( tmpX, y, sizePx, sizePx, s[i] );
+		}
+	}
+	else {
+		// align left
+		while( *s != '\0' ) {
+			drawChar( tmpX, y, sizePx, sizePx, *s );
+			s++;
+			tmpX += sizePx;
+		}
+	}
 }

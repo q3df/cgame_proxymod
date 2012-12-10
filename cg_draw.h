@@ -17,6 +17,9 @@ void    CG_DrawAdjPic( float x, float y, float width, float height, qhandle_t hS
 void    CG_AdjustFrom640( float *x, float *y, float *w, float *h );
 void    convertAdjustedToNative ( float *xAdj, float *yAdj, float *wAdj, float *hAdj );
 void    convertNativeToAdjusted ( float *x, float *y, float *w, float *h );
+void    drawChar( int32_t x, int32_t y, int32_t width, int32_t height, uint8_t c );
+void    CG_DrawText( float x, float y, float sizePx, vec4_t color, uint8_t alignRight, const char *string );
+
 
 
 #endif // __CG_DRAW_H__
