@@ -1,0 +1,39 @@
+CFLAGS = /nologo /D "WIN32" /D "_WINDOWS" /D "_MBCS" /W1 $(CRUNTIME)
+CFLAGS = $(CFLAGS) /D_CRT_SECURE_NO_DEPRECATE /D_CRT_NONSTDC_NO_DEPRECATE
+
+LD = link.exe
+LDFLAGS = /nologo /VERSION:0.1
+
+LIBS =
+# LIBS = $(LIBS) wsock32.lib ws2_32.lib
+
+# Optimisation and debug symbols.
+!if "$(DEBUG)" == "1"
+CFLAGS = $(CFLAGS) /D "_DEBUG" /Od /Z7
+LDFLAGS = $(LDFLAGS) /DEBUG
+!else
+CFLAGS = $(CFLAGS) /D "NDEBUG" /Ox /Ob2 /Oi /Ot /GL
+LDFLAGS = $(LDFLAGS) /ltcg
+!endif
+
+
+BASEDIR = build
+OBJ_DIR = $(BASEDIR)/win32/obj
+OBJS = $(OBJ_DIR)/cg_consolecmds.obj $(OBJ_DIR)/cg_cvar.obj $(OBJ_DIR)/cg_draw.obj $(OBJ_DIR)/cg_hud.obj $(OBJ_DIR)/cg_init.obj $(OBJ_DIR)/cg_main.obj $(OBJ_DIR)/cg_syscall.obj $(OBJ_DIR)/cg_utils.obj $(OBJ_DIR)/cg_vm.obj
+
+all : cgameproxy
+cgameproxy : $(BASEDIR)\cgamex86.dll
+
+$(BASEDIR) :
+	@if not exist $(BASEDIR) mkdir $(BASEDIR)
+	@if not exist $(BASEDIR)\win32 mkdir $(BASEDIR)\win32
+	@if not exist $(BASEDIR)\win32\obj mkdir $(BASEDIR)\win32\obj
+
+.c{$(OBJ_DIR)}.obj::
+	@$(CC) $(CFLAGS) /Fo$(OBJ_DIR)\ /c $<
+	
+$(BASEDIR)\cgamex86.dll : $(BASEDIR) $(OBJS)
+	@$(LD) $(LDFLAGS) /DLL /OUT:$(BASEDIR)\win32\cgamex86.dll $(OBJS) $(LIBS)
+	
+clean :
+	@if exist $(BASEDIR) rmdir /S /Q $(BASEDIR)
