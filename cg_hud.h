@@ -26,6 +26,7 @@ typedef struct {
 
 
 void hud_setup( void );
+void hud_update( void );
 void hud_draw( void );
 int8_t hud_vBarSetup( hud_bar_t *bar, float xPosAdj, float yPosAdj, float widthAdj, float heightAdj );
 int8_t hud_vBarDraw( float percent, hud_bar_t *bar );

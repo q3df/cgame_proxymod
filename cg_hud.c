@@ -18,6 +18,13 @@ void hud_setup( void ) {
 
 
 
+void hud_update( void ) {
+	// TODO: check if this call is required
+	hud_ammoSetup( );
+}
+
+
+
 void hud_draw( void ) {
 	float hud_draw, hud_ammo_draw;
 

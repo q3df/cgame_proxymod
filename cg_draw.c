@@ -19,6 +19,7 @@ int PASSFLOAT( float x ) {
 
 
 int32_t CG_DrawActiveFrame( int32_t serverTime, stereoFrame_t stereoView, qboolean demoPlayback ) {
+	hud_update( );
 	hud_draw( );
 	return 0;
 }
