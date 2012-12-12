@@ -150,14 +150,16 @@ int8_t hud_vBarSetup( hud_bar_t *bar, float xPosAdj, float yPosAdj, float widthA
 
 int8_t hud_ammoSetup( void ) {
 	float mdd_hud_opacity;
-	float xPosAdj, yPosAdj;
+	float xPosAdj, yPosAdj, size;
 
 	cvar_getFloat( "mdd_hud_opacity", &mdd_hud_opacity );
-	cvar_getFloat( "mdd_hud_ammo_OffsetX", &xPosAdj );
-	cvar_getFloat( "mdd_hud_ammo_OffsetY", &yPosAdj );
+	cvar_getFloat( "mdd_hud_ammo_offsetX", &xPosAdj );
+	cvar_getFloat( "mdd_hud_ammo_offsetY", &yPosAdj );
+	cvar_getFloat( "mdd_hud_ammo_size", &size );
 
 	ammo.xPos = xPosAdj;
 	ammo.yPos = yPosAdj;
+	ammo.size = size;
 
 	ammo.textColor[0] = 1.0;
 	ammo.textColor[1] = 1.0;
@@ -173,15 +175,17 @@ int8_t hud_ammoSetup( void ) {
 int8_t hud_ammoDraw( hud_ammo_t *hud ) {
 	uint32_t y, i;
 	playerState_t *ps;
+	float size;
 
 	ps = getPs( );
+	size = hud->size;
 
 	y = hud->yPos;
 	for( i=1; i<9; i++ ) {
 		if( hud->weapons == 0 && ps->ammo[i+1]) {
-			CG_DrawPic( hud->xPos, y, 32, 32, cgs.media.gfxAmmo[i] );
-			CG_DrawText( hud->xPos, y+8, 16, hud->textColor, qtrue, vaf("%i", ps->ammo[i+1]) );
-			y += 32;
+			CG_DrawPic( hud->xPos, y, size, size, cgs.media.gfxAmmo[i] );
+			CG_DrawText( hud->xPos, y+(size/2), (size/2), hud->textColor, qtrue, vaf("%i", ps->ammo[i+1]) );
+			y += size;
 		}
 	}
 

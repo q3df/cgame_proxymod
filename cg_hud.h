@@ -19,8 +19,9 @@ typedef struct {
 	uint32_t weapons;
 	float xPos;
 	float yPos;
-	vec4_t textColor;
+	float size;
 	uint8_t ammo[16];
+	vec4_t textColor;
 } hud_ammo_t;
 
 
