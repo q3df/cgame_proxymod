@@ -27,7 +27,7 @@
 #define GAME             "Q3A"
 
 //<mayor>.<compat>.<minor>.<build>
-#define VERSION "0.0.0.20"
+#define VERSION "0.0.0.21"
 
 
 
@@ -273,6 +273,7 @@ typedef struct {
 
 typedef struct {
 	/* GFX Handles */
+	qhandle_t   gfxDeferSymbol;
 	qhandle_t		gfxWhiteShader;
 	qhandle_t		gfxCharsetShader;
 	qhandle_t		gfxCharsetProp;
@@ -486,6 +487,41 @@ typedef struct usercmd_s {
 	byte			weapon;           // weapon 
 	signed char	forwardmove, rightmove, upmove;
 } usercmd_t;
+
+
+
+// player_state->stats[] indexes
+// NOTE: may not have more than 16
+typedef enum {
+	STAT_HEALTH,
+	STAT_HOLDABLE_ITEM,
+	STAT_WEAPONS,       // 16 bit fields
+	STAT_ARMOR,
+	STAT_DEAD_YAW,      // look this direction when dead (FIXME: get rid of?)
+	STAT_CLIENTS_READY, // bit mask of clients wishing to exit the intermission (FIXME: configstring?)
+	STAT_MAX_HEALTH     // health / armor limit, changable by handicap
+} statIndex_t;
+
+
+
+typedef enum {
+	WP_NONE,
+
+	WP_GAUNTLET,
+	WP_MACHINEGUN,
+	WP_SHOTGUN,
+	WP_GRENADE_LAUNCHER,
+	WP_ROCKET_LAUNCHER,
+	WP_LIGHTNING,
+	WP_RAILGUN,
+	WP_PLASMAGUN,
+	WP_BFG,
+	WP_GRAPPLING_HOOK,
+
+	WP_NUM_WEAPONS
+} weapon_t;
+
+
 
 #define	MAX_ENTITIES_IN_SNAPSHOT	256
 // bit field limits

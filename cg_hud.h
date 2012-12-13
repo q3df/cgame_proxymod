@@ -16,7 +16,6 @@ typedef struct {
 
 
 typedef struct {
-	uint32_t weapons;
 	float xPos;
 	float yPos;
 	float size;

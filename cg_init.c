@@ -42,7 +42,8 @@ void init_gfx( int32_t clientNum ) {
 	g_syscall( CG_GETGAMESTATE, &cgs.gameState );
 
 	cgs.levelStartTime = atof( getConfigString(21) ); // levelStartTime
-	
+
+	cgs.media.gfxDeferSymbol     = g_syscall( CG_R_REGISTERSHADER, "gfx/2d/defer" );
 	cgs.media.gfxCharsetShader   = g_syscall( CG_R_REGISTERSHADER, "gfx/2d/bigchars" );
 	cgs.media.gfxWhiteShader     = g_syscall( CG_R_REGISTERSHADER, "white" );
 	cgs.media.gfxCharsetProp     = g_syscall( CG_R_REGISTERSHADER, "menu/art/font1_prop.tga" );

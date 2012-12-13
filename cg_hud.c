@@ -176,17 +176,32 @@ int8_t hud_ammoDraw( hud_ammo_t *hud ) {
 	uint32_t y, i;
 	playerState_t *ps;
 	float size;
+	uint16_t hasWeapon;
+	uint16_t ammo;
 
 	ps = getPs( );
 	size = hud->size;
 
+	// TODO: display block sign in case ammo without weapon
+
 	y = hud->yPos;
 	for( i=1; i<9; i++ ) {
-		if( hud->weapons == 0 && ps->ammo[i+1]) {
-			CG_DrawPic( hud->xPos, y, size, size, cgs.media.gfxAmmo[i] );
-			CG_DrawText( hud->xPos, y+(size/2), (size/2), hud->textColor, qtrue, vaf("%i", ps->ammo[i+1]) );
-			y += size;
+		ammo = ps->ammo[i+1];
+		hasWeapon = ps->stats[STAT_WEAPONS] & (1<<(i+1));
+
+		if( !ammo && !hasWeapon ) {
+			continue;
 		}
+
+		CG_DrawPic( hud->xPos, y, size, size, cgs.media.gfxAmmo[i] );
+
+		if( !hasWeapon ) {
+			// mark weapon as unavailible
+			CG_DrawPic( hud->xPos, y, size, size, cgs.media.gfxDeferSymbol );
+		}
+
+		CG_DrawText( hud->xPos, y+(size/4), (size/2), hud->textColor, qtrue, vaf("%i", ps->ammo[i+1]) );
+		y += size;
 	}
 
 

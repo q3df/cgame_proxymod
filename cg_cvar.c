@@ -10,7 +10,6 @@ vmCvar_t mdd_hud_draw;
 vmCvar_t mdd_hud_opacity;
 
 vmCvar_t mdd_hud_ammo_draw;
-vmCvar_t mdd_hud_ammo_weapons;
 vmCvar_t mdd_hud_ammo_offsetX;
 vmCvar_t mdd_hud_ammo_offsetY;
 vmCvar_t mdd_hud_ammo_size;
@@ -18,10 +17,9 @@ vmCvar_t mdd_hud_ammo_size;
 static cvarTable_t cvarTable[] = {
 	{ &mdd_cgameproxy_version, "mdd_cgameproxy_version", VERSION, CVAR_USERINFO|CVAR_INIT },
 	{ &mdd_hud_draw,           "mdd_hud_draw",           "1",     CVAR_ARCHIVE },
-	{ &mdd_hud_ammo_weapons,   "mdd_hud_opacity",        "0.5",   CVAR_ARCHIVE },
+	{ &mdd_hud_opacity,        "mdd_hud_opacity",        "0.5",   CVAR_ARCHIVE },
 
 	{ &mdd_hud_ammo_draw,      "mdd_hud_ammo_draw",      "0",     CVAR_ARCHIVE },
-	{ &mdd_hud_ammo_weapons,   "mdd_hud_ammo_weapons",   "0",     CVAR_ARCHIVE },
 	{ &mdd_hud_ammo_offsetX,   "mdd_hud_ammo_offsetX",   "620",   CVAR_ARCHIVE },
 	{ &mdd_hud_ammo_offsetY,   "mdd_hud_ammo_offsetY",   "30",    CVAR_ARCHIVE },
 	{ &mdd_hud_ammo_size,      "mdd_hud_ammo_size",      "32",    CVAR_ARCHIVE }
