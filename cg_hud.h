@@ -20,7 +20,8 @@ typedef struct {
 	float yPos;
 	float size;
 	uint8_t ammo[16];
-	vec4_t textColor;
+	vec4_t colorText;
+	vec4_t colorBackdrop;
 } hud_ammo_t;
 
 

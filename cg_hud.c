@@ -161,10 +161,15 @@ int8_t hud_ammoSetup( void ) {
 	ammo.yPos = yPosAdj;
 	ammo.size = size;
 
-	ammo.textColor[0] = 1.0;
-	ammo.textColor[1] = 1.0;
-	ammo.textColor[2] = 1.0;
-	ammo.textColor[3] = mdd_hud_opacity;
+	ammo.colorText[0] = 1.0;
+	ammo.colorText[1] = 1.0;
+	ammo.colorText[2] = 1.0;
+	ammo.colorText[3] = mdd_hud_opacity;
+
+	ammo.colorBackdrop[0] = 0.0;
+	ammo.colorBackdrop[1] = 0.0;
+	ammo.colorBackdrop[2] = 0.0;
+	ammo.colorBackdrop[3] = mdd_hud_opacity;
 
 	convertAdjustedToNative( &ammo.xPos, &ammo.yPos, NULL, NULL );
 	return qtrue;
@@ -193,6 +198,10 @@ int8_t hud_ammoDraw( hud_ammo_t *hud ) {
 			continue;
 		}
 
+		g_syscall( CG_R_SETCOLOR, hud->colorBackdrop );
+		CG_DrawPic( hud->xPos, y, size, size, cgs.media.gfxWhiteShader );
+		g_syscall( CG_R_SETCOLOR, colorWhite );
+
 		CG_DrawPic( hud->xPos, y, size, size, cgs.media.gfxAmmo[i] );
 
 		if( !hasWeapon ) {
@@ -200,12 +209,10 @@ int8_t hud_ammoDraw( hud_ammo_t *hud ) {
 			CG_DrawPic( hud->xPos, y, size, size, cgs.media.gfxDeferSymbol );
 		}
 
-		CG_DrawText( hud->xPos, y+(size/4), (size/2), hud->textColor, qtrue, vaf("%i", ps->ammo[i+1]) );
+		CG_DrawText( hud->xPos, y+(size/4), (size/2), hud->colorText, qtrue, vaf("%i", ps->ammo[i+1]) );
 		y += size;
 	}
 
-
-	// mdd_hud_ammo_weapons is a bitfield that contains the weapons that should be displayed
 
 	// TODO: color the text of the ammo red in case of low ammo
 	// TODO: make textsize cvar dependant
