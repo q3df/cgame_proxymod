@@ -129,7 +129,6 @@ void drawChar( int32_t x, int32_t y, int32_t width, int32_t height, uint8_t c ) 
 
 
 void CG_DrawText( float x, float y, float sizePx, vec4_t color, uint8_t alignRight, const char *string ) {
-	// TODO: color
 	const char *s;
 	float tmpX;
 	uint32_t len;
@@ -140,6 +139,8 @@ void CG_DrawText( float x, float y, float sizePx, vec4_t color, uint8_t alignRig
 
 	s = string;
 	tmpX = x;
+
+	g_syscall( CG_R_SETCOLOR, color );
 
 	if( alignRight ) {
 		len = strlen( string );

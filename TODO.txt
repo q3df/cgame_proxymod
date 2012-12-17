@@ -1,19 +1,26 @@
 <mayor>.<compat>.<minor>.<build>
 
-v0.0.1.0
+version less
+====================
+- set global hud color
+- flip text to other side of ammo hud if it's in the left half of the screen
+- coordinate system with origin at crosshair
+
+until v0.0.1.0
 ====================
 - have one feature ready for testing (DONE)
 	- this will be the ammo hud (DONE)
+- jumpDelay hud
 - GPL header in every file and a License file
 
 
 
-v0.0.2.0
+until v0.0.2.0
 ====================
 - Documentation on how to use and install the mod
 
 
 
-v0.0.4.0
+until v0.0.4.0
 ====================
 - Display jump delays of the player

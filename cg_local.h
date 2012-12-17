@@ -27,7 +27,7 @@
 #define GAME             "Q3A"
 
 //<mayor>.<compat>.<minor>.<build>
-#define VERSION "0.0.0.21"
+#define VERSION "0.0.0.23"
 
 
 
@@ -523,6 +523,8 @@ typedef enum {
 
 
 
+#define	MAX_GENTITIES		(1<<10)
+#define	ENTITYNUM_NONE		(MAX_GENTITIES-1)
 #define	MAX_ENTITIES_IN_SNAPSHOT	256
 // bit field limits
 #define	MAX_STATS				16

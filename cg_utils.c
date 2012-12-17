@@ -2,6 +2,7 @@
 #include <stdio.h>
 
 #include "cg_local.h"
+#include "cg_utils.h"
 
 #ifdef _WIN32
 	#define vsnprintf _vsnprintf
@@ -54,4 +55,28 @@ playerState_t *getPs( void ) {
 	g_syscall( CG_GETSNAPSHOT, curSnapNum, &tmp );
 
 	return &tmp.ps;
+}
+
+
+
+int8_t isInAir( playerState_t *ps ) {
+	if( ps == NULL )
+		return -1;
+	else
+		return (ps->groundEntityNum == ENTITYNUM_NONE)?qtrue:qfalse;
+}
+
+
+
+int8_t isJumping( playerState_t *ps ) {
+	if( ps == NULL )
+		return -1;
+	else
+		return (ps->stats[13] & PSF_USERINPUT_JUMP)?qtrue:qfalse;
+}
+
+
+
+uint32_t getTime( void ) {
+	return g_syscall( CG_MILLISECONDS );
 }
