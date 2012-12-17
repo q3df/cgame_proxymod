@@ -54,6 +54,7 @@ typedef struct {
 	// draw data
 	int32_t postDelay;
 	int32_t preDelay;
+	int32_t fullDelay;
 
 	vec4_t postJumpColor;
 	vec4_t preJumpColor;

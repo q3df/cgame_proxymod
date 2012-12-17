@@ -309,10 +309,8 @@ int8_t hud_jumpDelaySetup( hud_jumpDelay_t *jumpHud ) {
 int8_t hud_jumpDelayDraw( hud_jumpDelay_t *jumpHud ) {
 	const float rangeMs=300;
 	float middle, upHeight, downHeight, barUp, barDown;
-	uint32_t fullDelay=0;
 
 	middle = jumpHud->yPos + (jumpHud->height / 2.0);
-	fullDelay = jumpHud->postDelay + jumpHud->preDelay;
 	barUp = jumpHud->postDelay;
 	barDown = jumpHud->preDelay;
 
@@ -338,7 +336,7 @@ int8_t hud_jumpDelayDraw( hud_jumpDelay_t *jumpHud ) {
 	}
 	// draw text next to it
 	if( jumpHud->mode & 1 ) {
-		CG_DrawText( jumpHud->textPosX, jumpHud->textPosY, jumpHud->textSize, jumpHud->textColor, qfalse, vaf("%i ms", fullDelay) );
+ 		CG_DrawText( jumpHud->textPosX, jumpHud->textPosY, jumpHud->textSize, jumpHud->textColor, qfalse, vaf("%i ms", jumpHud->fullDelay) );
 	}
 
 	return qtrue;
@@ -413,6 +411,11 @@ int8_t hud_jumpDelayControl( hud_jumpDelay_t *jumpHud ) {
 	// act on current state
 	switch( state ) {
 		case AIR_NOJUMP:
+			jumpHud->fullDelay = jumpHud->postDelay + jumpHud->preDelay;
+			if( lastState == AIR_JUMP ) {
+				jumpHud->preDelay  = 0;
+				jumpHud->postDelay = 0;
+			}
 			// we spend the most time in this state
 			// that is why here we show the last jump stats
 		break;

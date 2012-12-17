@@ -10,7 +10,8 @@ until v0.0.1.0
 ====================
 - have one feature ready for testing (DONE)
 	- this will be the ammo hud (DONE)
-- jumpDelay hud
+- jumpDelay hud (DONE)
+- have players adjust colors
 - GPL header in every file and a License file
 
 
