@@ -31,19 +31,19 @@ static cvarTable_t cvarTable[] = {
 	{ &mdd_hud_draw,           "mdd_hud_draw",           "1",     CVAR_ARCHIVE },
 	{ &mdd_hud_opacity,        "mdd_hud_opacity",        "0.5",   CVAR_ARCHIVE },
 
-	{ &mdd_hud_ammo_draw,      "mdd_hud_ammo_draw",    "0",     CVAR_ARCHIVE },
-	{ &mdd_hud_ammo_offsetX,   "mdd_hud_ammo_offsetX", "610",   CVAR_ARCHIVE },
-	{ &mdd_hud_ammo_offsetY,   "mdd_hud_ammo_offsetY", "30",    CVAR_ARCHIVE },
-	{ &mdd_hud_ammo_size,      "mdd_hud_ammo_size",    "32",    CVAR_ARCHIVE },
+	{ &mdd_hud_ammo_draw,      "mdd_hud_ammo_draw",    "0",   CVAR_ARCHIVE },
+	{ &mdd_hud_ammo_offsetX,   "mdd_hud_ammo_offsetX", "610", CVAR_ARCHIVE },
+	{ &mdd_hud_ammo_offsetY,   "mdd_hud_ammo_offsetY", "30",  CVAR_ARCHIVE },
+	{ &mdd_hud_ammo_size,      "mdd_hud_ammo_size",    "32",  CVAR_ARCHIVE },
 
-	{ &mdd_hud_jumpDelay_draw,    "mdd_hud_jumpDelay_draw",    "0",   CVAR_ARCHIVE },
-	{ &mdd_hud_jumpDelay_offsetX, "mdd_hud_jumpDelay_graphOffsetX", "330", CVAR_ARCHIVE },
-	{ &mdd_hud_jumpDelay_offsetY, "mdd_hud_jumpDelay_graphOffsetY", "140",  CVAR_ARCHIVE },
-	{ &mdd_hud_jumpDelay_width,   "mdd_hud_jumpDelay_width",   "16",  CVAR_ARCHIVE },
-	{ &mdd_hud_jumpDelay_height,  "mdd_hud_jumpDelay_height",  "300", CVAR_ARCHIVE },
-	{ &mdd_hud_jumpDelay_textOffsetX,  "mdd_hud_jumpDelay_textOffsetX",  "320", CVAR_ARCHIVE },
-	{ &mdd_hud_jumpDelay_textOffsetY,  "mdd_hud_jumpDelay_textOffsetY",  "220", CVAR_ARCHIVE },
-	{ &mdd_hud_jumpDelay_textSize,  "mdd_hud_jumpDelay_textSize",  "16", CVAR_ARCHIVE }
+	{ &mdd_hud_jumpDelay_draw,        "mdd_hud_jumpDelay_draw",         "0",   CVAR_ARCHIVE },
+	{ &mdd_hud_jumpDelay_offsetX,     "mdd_hud_jumpDelay_graphOffsetX", "330", CVAR_ARCHIVE },
+	{ &mdd_hud_jumpDelay_offsetY,     "mdd_hud_jumpDelay_graphOffsetY", "140", CVAR_ARCHIVE },
+	{ &mdd_hud_jumpDelay_width,       "mdd_hud_jumpDelay_graphWidth",   "16",  CVAR_ARCHIVE },
+	{ &mdd_hud_jumpDelay_height,      "mdd_hud_jumpDelay_graphHeight",  "300", CVAR_ARCHIVE },
+	{ &mdd_hud_jumpDelay_textOffsetX, "mdd_hud_jumpDelay_textOffsetX",  "320", CVAR_ARCHIVE },
+	{ &mdd_hud_jumpDelay_textOffsetY, "mdd_hud_jumpDelay_textOffsetY",  "220", CVAR_ARCHIVE },
+	{ &mdd_hud_jumpDelay_textSize,    "mdd_hud_jumpDelay_textSize",     "16",  CVAR_ARCHIVE }
 };
 
 

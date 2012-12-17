@@ -261,14 +261,14 @@ int8_t hud_jumpDelaySetup( hud_jumpDelay_t *jumpHud ) {
 	float draw;
 
 	cvar_getFloat( "mdd_hud_opacity", &mdd_hud_opacity );
-	cvar_getFloat( "mdd_hud_jumpDelay_draw", &draw );
-	cvar_getFloat( "mdd_hud_jumpDelay_width", &widthPx );
-	cvar_getFloat( "mdd_hud_jumpDelay_height", &heightPx );
-	cvar_getFloat( "mdd_hud_jumpDelay_offsetX", &xPos );
-	cvar_getFloat( "mdd_hud_jumpDelay_offsetY", &yPos );
-	cvar_getFloat( "mdd_hud_jumpDelay_textOffsetX", &textPosX );
-	cvar_getFloat( "mdd_hud_jumpDelay_textOffsetY", &textPosY );
-	cvar_getFloat( "mdd_hud_jumpDelay_textSize", &textSize );
+	cvar_getFloat( "mdd_hud_jumpDelay_draw",         &draw );
+	cvar_getFloat( "mdd_hud_jumpDelay_graphWidth",   &widthPx );
+	cvar_getFloat( "mdd_hud_jumpDelay_graphHeight",  &heightPx );
+	cvar_getFloat( "mdd_hud_jumpDelay_graphOffsetX", &xPos );
+	cvar_getFloat( "mdd_hud_jumpDelay_graphOffsetY", &yPos );
+	cvar_getFloat( "mdd_hud_jumpDelay_textOffsetX",  &textPosX );
+	cvar_getFloat( "mdd_hud_jumpDelay_textOffsetY",  &textPosY );
+	cvar_getFloat( "mdd_hud_jumpDelay_textSize",     &textSize );
 
 	convertAdjustedToNative( &xPos, &yPos, &textPosX, &textPosY );
 
@@ -279,16 +279,16 @@ int8_t hud_jumpDelaySetup( hud_jumpDelay_t *jumpHud ) {
 	jumpHud->width = widthPx;
 	jumpHud->height = heightPx;
 
-	jumpHud->preJumpColor[0] = 0.5;
-	jumpHud->preJumpColor[1] = 0.5;
+	jumpHud->preJumpColor[0] = 0.0;
+	jumpHud->preJumpColor[1] = 0.0;
 	jumpHud->preJumpColor[2] = 1.0;
 	jumpHud->preJumpColor[3] = mdd_hud_opacity +0.5;
 	if( jumpHud->preJumpColor[3] > 1.0 )
 		jumpHud->preJumpColor[3] = 1.0;
 
 	jumpHud->postJumpColor[0] = 1.0;
-	jumpHud->postJumpColor[1] = 0.5;
-	jumpHud->postJumpColor[2] = 0.5;
+	jumpHud->postJumpColor[1] = 0.0;
+	jumpHud->postJumpColor[2] = 0.0;
 	jumpHud->postJumpColor[3] = mdd_hud_opacity +0.5;
 	if( jumpHud->postJumpColor[3] > 1.0 )
 		jumpHud->postJumpColor[3] = 1.0;
