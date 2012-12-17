@@ -192,7 +192,7 @@ int8_t hud_ammoSetup( hud_ammo_t *ammoHud ) {
 	ammoHud->colorText[0] = 1.0;
 	ammoHud->colorText[1] = 1.0;
 	ammoHud->colorText[2] = 1.0;
-	ammoHud->colorText[3] = mdd_hud_opacity;
+	ammoHud->colorText[3] = 1.0;
 
 	ammoHud->colorBackdrop[0] = 0.0;
 	ammoHud->colorBackdrop[1] = 0.0;
@@ -258,8 +258,10 @@ int8_t hud_jumpDelaySetup( hud_jumpDelay_t *jumpHud ) {
 	float xPos, yPos, widthPx, heightPx;
 	float textPosX, textPosY, textSize;
 	float mdd_hud_opacity;
+	float draw;
 
 	cvar_getFloat( "mdd_hud_opacity", &mdd_hud_opacity );
+	cvar_getFloat( "mdd_hud_jumpDelay_draw", &draw );
 	cvar_getFloat( "mdd_hud_jumpDelay_width", &widthPx );
 	cvar_getFloat( "mdd_hud_jumpDelay_height", &heightPx );
 	cvar_getFloat( "mdd_hud_jumpDelay_offsetX", &xPos );
@@ -269,6 +271,8 @@ int8_t hud_jumpDelaySetup( hud_jumpDelay_t *jumpHud ) {
 	cvar_getFloat( "mdd_hud_jumpDelay_textSize", &textSize );
 
 	convertAdjustedToNative( &xPos, &yPos, &textPosX, &textPosY );
+
+	jumpHud->mode = draw; // 0=off, 1=text, 2=graph, 3=text and graph
 
 	jumpHud->xPos = xPos;
 	jumpHud->yPos = yPos;
@@ -323,16 +327,19 @@ int8_t hud_jumpDelayDraw( hud_jumpDelay_t *jumpHud ) {
 	downHeight = (jumpHud->height/2) * (barDown / rangeMs);
 
 	// draw graph
-	hud_boxDraw( jumpHud->xPos, jumpHud->yPos, jumpHud->width, jumpHud->height );
+	if(jumpHud->mode > 1 ) {
+		hud_boxDraw( jumpHud->xPos, jumpHud->yPos, jumpHud->width, jumpHud->height );
 
-	g_syscall( CG_R_SETCOLOR, jumpHud->preJumpColor );
-	CG_DrawPic( jumpHud->xPos, middle , jumpHud->width, downHeight, cgs.media.gfxWhiteShader );
+		g_syscall( CG_R_SETCOLOR, jumpHud->preJumpColor );
+		CG_DrawPic( jumpHud->xPos, middle , jumpHud->width, downHeight, cgs.media.gfxWhiteShader );
 
-	g_syscall( CG_R_SETCOLOR, jumpHud->postJumpColor );
-	CG_DrawPic( jumpHud->xPos, (middle-upHeight), jumpHud->width, upHeight, cgs.media.gfxWhiteShader );
-
+		g_syscall( CG_R_SETCOLOR, jumpHud->postJumpColor );
+		CG_DrawPic( jumpHud->xPos, (middle-upHeight), jumpHud->width, upHeight, cgs.media.gfxWhiteShader );
+	}
 	// draw text next to it
-	CG_DrawText( jumpHud->textPosX, jumpHud->textPosY, jumpHud->textSize, jumpHud->textColor, qfalse, vaf("%i ms", fullDelay) );
+	if( jumpHud->mode % 2 ) {
+		CG_DrawText( jumpHud->textPosX, jumpHud->textPosY, jumpHud->textSize, jumpHud->textColor, qfalse, vaf("%i ms", fullDelay) );
+	}
 
 	return qtrue;
 }

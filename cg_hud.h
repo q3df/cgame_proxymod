@@ -3,10 +3,6 @@
 
 
 
-#define MAX_
-
-
-
 typedef struct {
 	vec4_t color;
 } hud_t;
@@ -44,6 +40,8 @@ typedef struct {
 	float textSize;
 	float width;
 	float height;
+
+	uint32_t mode;
 
 	// timestamps for computation
 	uint32_t t_jumpPreGround;
