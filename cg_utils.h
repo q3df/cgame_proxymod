@@ -33,6 +33,7 @@ extern vec4_t    colorDkGrey;
 char* vaf(char* format, ...);
 const char *getConfigString( int32_t index );
 
+snapshot_t *getSnap( void );
 playerState_t *getPs( void );
 int8_t isInAir( playerState_t *ps );
 int8_t isJumping( playerState_t *ps );

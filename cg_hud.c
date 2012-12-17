@@ -327,7 +327,7 @@ int8_t hud_jumpDelayDraw( hud_jumpDelay_t *jumpHud ) {
 	downHeight = (jumpHud->height/2) * (barDown / rangeMs);
 
 	// draw graph
-	if(jumpHud->mode > 1 ) {
+	if(jumpHud->mode & 2 ) {
 		hud_boxDraw( jumpHud->xPos, jumpHud->yPos, jumpHud->width, jumpHud->height );
 
 		g_syscall( CG_R_SETCOLOR, jumpHud->preJumpColor );
@@ -337,7 +337,7 @@ int8_t hud_jumpDelayDraw( hud_jumpDelay_t *jumpHud ) {
 		CG_DrawPic( jumpHud->xPos, (middle-upHeight), jumpHud->width, upHeight, cgs.media.gfxWhiteShader );
 	}
 	// draw text next to it
-	if( jumpHud->mode % 2 ) {
+	if( jumpHud->mode & 1 ) {
 		CG_DrawText( jumpHud->textPosX, jumpHud->textPosY, jumpHud->textSize, jumpHud->textColor, qfalse, vaf("%i ms", fullDelay) );
 	}
 
@@ -360,7 +360,7 @@ int8_t hud_jumpDelayControl( hud_jumpDelay_t *jumpHud ) {
 	 * AIR_JUMPNORELEASE: The player is midair, without releasing the jump button
 	 */
 
-	now = getTime( );
+	now = getSnap( )->serverTime;
 	ps = getPs( );
 	inAir = isInAir( ps );
 	jump = isJumping( ps );
