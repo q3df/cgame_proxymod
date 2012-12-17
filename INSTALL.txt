@@ -1,0 +1,11 @@
+Windows:
+1. Copy the DLL-file into the "defrag" directory
+2. Set "vm_cgame" to "0"
+
+Linux:
+1. Copy the SO-file into the "defrag" directory
+2. Set "vm_cgame" to "0"
+
+When you start playing you should see a colored text printed into the console:
+"[mDd] cgame-proxy: x.x.x.x"
+When you see this it means you installed the proxymod correctly.
