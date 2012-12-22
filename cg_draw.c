@@ -50,24 +50,6 @@ void CG_DrawPic( float x, float y, float width, float height, qhandle_t hShader 
 
 
 
-float yawToY( float yaw ) {
-	float fov;
-
-	fov = 130.0;
-	//	fov = g_syscall( );
-	return 0.0;
-	// TODO: MAGIC TRANSFORMATION!
-}
-
-
-
-float pitchToX ( float pitch ) {
-	return 0.0;
-	// TODO: MAGIC TRANSFORMATION!
-}
-
-
-
 void CG_AdjustFrom640( float *x, float *y, float *w, float *h ) {
 #if 0
 	// adjust for wide screens
@@ -157,4 +139,53 @@ void CG_DrawText( float x, float y, float sizePx, vec4_t color, uint8_t alignRig
 			tmpX += sizePx;
 		}
 	}
+}
+
+
+
+int8_t getColor( uint8_t color, float opacity, vec4_t c ) {
+	float tmp;
+
+	tmp = opacity;
+	if( opacity > 1.0 || opacity < 0 )
+		tmp = 1.0;
+
+	switch( color ) {
+		case 0:
+		case 1:
+		case 2:
+		case 3:
+		case 4:
+		case 7:
+			c[0] = color&1;
+			c[1] = color&2;
+			c[2] = color&4;
+			c[3] = tmp;
+		break;
+
+		// these two colors don't fit the pattern, probably a mistake.
+		case 5:
+			c[0] = 0.0;
+			c[1] = 1.0;
+			c[2] = 1.0;
+			c[3] = tmp;
+		break;
+
+		case 6:
+			c[0] = 1.0;
+			c[1] = 0.0;
+			c[2] = 1.0;
+			c[3] = tmp;
+		break;
+
+		default:
+			c[0] = 1.0;
+			c[1] = 1.0;
+			c[2] = 1.0;
+			c[3] = tmp;
+			return qfalse;
+		break;
+	}
+
+	return qtrue;
 }

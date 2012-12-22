@@ -178,21 +178,19 @@ int8_t hud_vBarSetup( hud_bar_t *bar, float xPosAdj, float yPosAdj, float widthA
 
 int8_t hud_ammoSetup( hud_ammo_t *ammoHud ) {
 	float mdd_hud_opacity;
-	float xPosAdj, yPosAdj, size;
+	float xPosAdj, yPosAdj, size, textColor;
 
 	cvar_getFloat( "mdd_hud_opacity", &mdd_hud_opacity );
 	cvar_getFloat( "mdd_hud_ammo_offsetX", &xPosAdj );
 	cvar_getFloat( "mdd_hud_ammo_offsetY", &yPosAdj );
 	cvar_getFloat( "mdd_hud_ammo_size", &size );
+	cvar_getFloat( "mdd_hud_ammo_textColor", &textColor );
 
 	ammoHud->xPos = xPosAdj;
 	ammoHud->yPos = yPosAdj;
 	ammoHud->size = size;
 
-	ammoHud->colorText[0] = 1.0;
-	ammoHud->colorText[1] = 1.0;
-	ammoHud->colorText[2] = 1.0;
-	ammoHud->colorText[3] = 1.0;
+	getColor( textColor, 1.0, ammoHud->colorText );
 
 	ammoHud->colorBackdrop[0] = 0.0;
 	ammoHud->colorBackdrop[1] = 0.0;
@@ -256,7 +254,7 @@ int8_t hud_ammoDraw( hud_ammo_t *ammoHud ) {
  */
 int8_t hud_jumpDelaySetup( hud_jumpDelay_t *jumpHud ) {
 	float xPos, yPos, widthPx, heightPx;
-	float textPosX, textPosY, textSize;
+	float textPosX, textPosY, textSize, textColor;
 	float mdd_hud_opacity;
 	float draw;
 
@@ -269,6 +267,7 @@ int8_t hud_jumpDelaySetup( hud_jumpDelay_t *jumpHud ) {
 	cvar_getFloat( "mdd_hud_jumpDelay_textOffsetX",  &textPosX );
 	cvar_getFloat( "mdd_hud_jumpDelay_textOffsetY",  &textPosY );
 	cvar_getFloat( "mdd_hud_jumpDelay_textSize",     &textSize );
+	cvar_getFloat( "mdd_hud_jumpDelay_textColor",    &textColor );
 
 	convertAdjustedToNative( &xPos, &yPos, &textPosX, &textPosY );
 
@@ -293,10 +292,7 @@ int8_t hud_jumpDelaySetup( hud_jumpDelay_t *jumpHud ) {
 	if( jumpHud->postJumpColor[3] > 1.0 )
 		jumpHud->postJumpColor[3] = 1.0;
 
-	jumpHud->textColor[0] = 1.0;
-	jumpHud->textColor[1] = 1.0;
-	jumpHud->textColor[2] = 1.0;
-	jumpHud->textColor[3] = 1.0;
+	getColor( textColor, 1.0, jumpHud->textColor );
 
 	jumpHud->textPosX = textPosX;
 	jumpHud->textPosY = textPosY;
